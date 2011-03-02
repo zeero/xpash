@@ -1,10 +1,10 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 require 'xpash/cli'
 
-describe Xpash::CLI, "execute" do
+describe XPash::CLI, "execute" do
   before(:each) do
     @stdout_io = StringIO.new
-    Xpash::CLI.execute(@stdout_io, [])
+    XPash::CLI.execute(@stdout_io, [])
     @stdout_io.rewind
     @stdout = @stdout_io.read
   end

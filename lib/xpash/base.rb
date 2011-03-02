@@ -1,109 +1,107 @@
-# Add this library to $LOAD_PATH
-$:.unshift(File.dirname(__FILE__)) unless
-  $:.include?(File.dirname(__FILE__)) || $:.include?(File.expand_path(File.dirname(__FILE__)))
-
 require 'logger'
 require 'optparse'
 
 require 'rubygems'
 require 'nokogiri'
 
-class XPash
+module XPash
+  class Base
 
-  VERSION = '0.0.1'
+    VERSION = '0.0.1'
 
-  DEFAULT_PATH = "//"
-  ROOT_PATH = "/"
+    DEFAULT_PATH = "//"
+    ROOT_PATH = "/"
 
-  attr_reader :query
+    attr_reader :query
 
-  def initialize(filepath)
-    @doc = Nokogiri::HTML(open(filepath))
-    @query = DEFAULT_PATH
-    @list = Array.new
+    def initialize(filepath)
+      @doc = Nokogiri::HTML(open(filepath))
+      @query = DEFAULT_PATH
+      @list = Array.new
 
-    @log = Logger.new(STDOUT)
-    @log.level = Logger::WARN unless $DEBUG
-  end
-
-  def eval(input)
-    if "" == input
-      return
+      @log = Logger.new(STDOUT)
+      @log.level = Logger::WARN unless $DEBUG
     end
 
-    input_a = input.split
-    command = input_a.shift
-    args = input_a.join(" ")
-    @log.debug("command => #{command}, args => #{args}")
-
-    if self.respond_to?(command)
-      self.send(command, args)
-    else
-      puts "Error: \'#{command}\' is not xpash command."
-    end
-  end
-
-  def cd(path = nil)
-
-    case path
-    when /^\//
-      # absolute path
-      query = path
-    when /^\.\./
-      # go up
-      if /(^.*[^\/]+)\/+.+?$/ =~ @query
-        query = $1
-      else
-        query = ROOT_PATH
+    def eval(input)
+      if "" == input
+        return
       end
-    when /^\[/
-      # add condition
-      query = @query + path
-    else
-      if /\/$/ =~ @query
+
+      input_a = input.split
+      command = input_a.shift
+      args = input_a.join(" ")
+      @log.debug("command => #{command}, args => #{args}")
+
+      if self.respond_to?(command)
+        self.send(command, args)
+      else
+        puts "Error: \'#{command}\' is not xpash command."
+      end
+    end
+
+    def cd(path = nil)
+
+      case path
+      when /^\//
+        # absolute path
+        query = path
+      when /^\.\./
+        # go up
+        if /(^.*[^\/]+)\/+.+?$/ =~ @query
+          query = $1
+        else
+          query = ROOT_PATH
+        end
+      when /^\[/
+        # add condition
         query = @query + path
       else
-        query = @query + "/" + path
+        if /\/$/ =~ @query
+          query = @query + path
+        else
+          query = @query + "/" + path
+        end
       end
+
+      @list = @doc.xpath(query)
+      @query = query
+      @list.size
     end
 
-    @list = @doc.xpath(query)
-    @query = query
-    @list.size
-  end
+    def ls(args = nil)
+      if args
+        args_a = args.split
+        OptionParser.new(nil , 16) {|o|
+          o.banner = "ls: List matched elements themselves and their child."
+          o.separator("Options:")
+          o.on("-h", "--help", "This help.") {puts o.help; return}
+          o.parse!(args_a)
+        }
+      end
 
-  def ls(args = nil)
-    if args
-      args_a = args.split
-      OptionParser.new(nil , 16) {|o|
-        o.banner = "ls: List matched elements themselves and their child."
-        o.separator("Options:")
-        o.on("-h", "--help", "This help.") {puts o.help; return}
-        o.parse!(args_a)
+      @list.each {|e|
+        case e
+        when Nokogiri::XML::Element
+          e.ls(@query, args)
+        end
       }
+      return
+    end
+    alias :list :ls
+
+    def up(args = nil)
     end
 
-    @list.each {|e|
-      case e
-      when Nokogiri::XML::Element
-        e.ls(@query, args)
-      end
-    }
-    return
-  end
-  alias :list :ls
+    def exit(args = nil)
+      Kernel.exit
+    end
+    alias :quit :exit
 
-  def up(args = nil)
-  end
-
-  def exit(args = nil)
-    Kernel.exit
-  end
-  alias :quit :exit
-
-  def self.xpath(filepath, query)
-    doc = Nokogiri::HTML(open(filepath))
-    return doc.xpath(query).map {|e| e.to_s}
+    def self.xpath(filepath, query)
+      doc = Nokogiri::HTML(open(filepath))
+      return doc.xpath(query).map {|e| e.to_s}
+    end
   end
 end
 
@@ -154,9 +152,9 @@ if __FILE__ == $0
     end
   else
     #puts "file path?"
-    filepath = "#{File.dirname($0)}/../test/test.html"
+    filepath = "#{File.dirname($0)}/../../work/test.html"
   end
-  xpash = XPash.new(filepath)
+  xpash = XPash::Base.new(filepath)
 
   if ARGV[1]
     xpash.cd(ARGV[1])

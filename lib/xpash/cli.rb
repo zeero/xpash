@@ -1,6 +1,6 @@
 require 'optparse'
 
-module Xpash
+module XPash
   class CLI
     def self.execute(stdout, arguments=[])
 
