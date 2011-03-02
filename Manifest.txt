@@ -1,0 +1,16 @@
+History.txt
+Manifest.txt
+PostInstall.txt
+README.rdoc
+Rakefile
+bin/xpash
+lib/xpash.rb
+lib/xpash/cli.rb
+script/console
+script/destroy
+script/generate
+spec/spec.opts
+spec/spec_helper.rb
+spec/xpash_cli_spec.rb
+spec/xpash_spec.rb
+tasks/rspec.rake
