@@ -7,6 +7,8 @@ require 'logger'
 require 'rubygems'
 require 'nokogiri'
 
+require 'xpash/base'
+
 module XPash
   VERSION = '0.0.1'
 end

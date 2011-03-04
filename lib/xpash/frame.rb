@@ -1,0 +1,22 @@
+module XPash
+  class Frame
+    def self.display(xpash)
+      begin
+        print "xpash:#{xpash.query} > "
+
+        input = gets
+        unless input
+          puts
+          next
+        end
+
+        result = xpash.eval(input.chomp)
+
+        puts result if result
+      rescue Nokogiri::XML::XPath::SyntaxError => e
+        puts "Error: #{e}"
+      end
+    end
+  end
+
+end
