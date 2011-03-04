@@ -1,3 +1,6 @@
+require 'xpash/cmd/commands'
+require 'xpash/nokogiri_ext'
+
 module XPash
   class Base
 

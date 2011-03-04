@@ -8,8 +8,6 @@ require 'rubygems'
 require 'nokogiri'
 
 require 'xpash/base'
-require 'xpash/cmd/commands'
-require 'xpash/nokogiri_ext'
 
 module XPash
   VERSION = '0.0.1'
