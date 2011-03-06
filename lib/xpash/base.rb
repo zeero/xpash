@@ -31,7 +31,7 @@ module XPash
       if self.respond_to?(command)
         self.send(command, args)
       else
-        puts "Error: \'#{command}\' is not xpash command."
+        raise "\'#{command}\' is not xpash command."
       end
     end
 

@@ -51,9 +51,6 @@ module XPash
 
       parser = OptionParser.new(nil, 24) do |opts|
         opts.banner = <<-BANNER.gsub(/^          /,'')
-
-          XPash is interactive interface for XPath.
-
           Usage: #{File.basename($0)} [options]
 
         BANNER

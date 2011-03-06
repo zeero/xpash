@@ -15,6 +15,8 @@ module XPash
         puts result if result
       rescue Nokogiri::XML::XPath::SyntaxError => e
         puts "Error: #{e}"
+      rescue RuntimeError => e
+        puts "Error: #{e}"
       end
     end
   end
