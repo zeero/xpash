@@ -8,7 +8,7 @@ module XPash
           path = tnode.ancestors.reverse.map {|anc|
             anc.name unless anc.kind_of? Nokogiri::XML::Document
           }
-          path << tnode.content
+          path << tnode.ls
           puts path.join("/")
         }
       end

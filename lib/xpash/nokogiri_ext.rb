@@ -3,13 +3,15 @@ end
 class Nokogiri::XML::Attr
 end
 class Nokogiri::XML::Text
+  def ls
+    return %(text()[.="#{self.content.gsub(/\n/, "")}"])
+  end
 end
 class Nokogiri::XML::Element
-  def ls(xpath, args = nil)
-    # print xpath without attributes
-    print xpath.gsub(/\[.+?\]$/, "")
+  def ls(opts = {})
+    exp = self.name
 
-    # print attributes
+    # get attributes expression
     attr_a = self.attributes
     if attr_a.size > 0
       first = attr_a.shift
@@ -17,18 +19,9 @@ class Nokogiri::XML::Element
       attr_a.each {|key, value|
         attr += " and @#{key}=\"#{value}\""
       }
-      print "[#{attr}]"
+      exp += "[#{attr}]"
     end
 
-    # print childs
-    children = self.children
-    if children.size > 0
-      puts ":"
-      children.each {|child|
-        puts child.name
-      }
-    end
-
-    puts
+    return exp
   end
 end
