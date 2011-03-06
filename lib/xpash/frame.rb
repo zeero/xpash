@@ -12,7 +12,7 @@ module XPash
 
         result = xpash.eval(input.chomp)
 
-        puts result if result
+        puts "=> #{result}" if result
       rescue Nokogiri::XML::XPath::SyntaxError => e
         puts "Error: #{e}"
       rescue RuntimeError => e

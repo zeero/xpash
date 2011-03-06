@@ -14,8 +14,11 @@ module XPash
       @query = DEFAULT_PATH
       @list = Array.new
 
-      @log = Logger.new(STDOUT)
+      @log = Logger.new($stdout)
+      @log.datetime_format = "%Y-%m-%d %H:%M:%S"
+      @log.progname = self.class
       @log.level = Logger::WARN unless $DEBUG
+      @log.debug %(#initialize: filepath => "#{filepath}")
     end
 
     def eval(input)
@@ -26,7 +29,7 @@ module XPash
       input_a = input.split
       command = input_a.shift
       args = input_a.join(" ")
-      @log.debug("command => #{command}, args => #{args}")
+      @log.debug %(#eval: command => "#{command}", args => "#{args}")
 
       if self.respond_to?(command)
         self.send(command, args)
