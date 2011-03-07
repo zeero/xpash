@@ -2,12 +2,8 @@ module XPash
   class Base
     def ls(*args)
       # parse args
-      OptionParser.new(nil , 16) {|o|
-        o.banner = "ls: Show matched elements."
-        o.separator("Options:")
-        o.on("-h", "--help", "This help.") {puts o.help; return}
-        o.parse!(args)
-      }
+      o = get_optparse_ls
+      o.parse!(args)
 
       @list.each do |e|
         case e

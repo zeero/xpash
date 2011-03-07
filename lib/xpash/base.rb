@@ -12,6 +12,7 @@ module XPash
       @doc = Nokogiri::HTML(open(filepath))
       @query = DEFAULT_PATH
       @list = [@doc]
+      @optparses = {}
 
       @log = Logger.new($stdout)
       @log.datetime_format = "%Y-%m-%d %H:%M:%S"
