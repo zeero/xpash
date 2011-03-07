@@ -5,10 +5,10 @@ require 'xpash/frame'
 module XPash
   class CLI
 
-    def self.start(argv=[])
+    def self.start(argv)
 
       # parse ARGV
-      opts = optparse(argv)
+      opts = optparse!(argv)
 
       # check options
       unless opts[:filepath]
@@ -39,52 +39,50 @@ module XPash
 
     end
 
-    def self.optparse(argv)
+    def self.optparse!(argv)
 
-      # NOTE: the option -p/--path= is given as an example, and should be replaced in your application.
-
-      options = {
+      opts = {
         # TODO: development setting
         :filepath     => "#{File.dirname(__FILE__)}/../../work/test.html"
       }
-      mandatory_options = %w(  )
+      mandatory_opts = %w(  )
 
-      parser = OptionParser.new(nil, 24) do |opts|
-        opts.banner = <<-BANNER.gsub(/^          /,'')
+      OptionParser.new(nil, 24) do |o|
+        o.banner = <<-BANNER.gsub(/^          /,'')
           Usage: #{File.basename($0)} [options]
 
         BANNER
-        opts.program_name = XPash.name
-        opts.version = XPash::VERSION
+        o.program_name = XPash.name
+        o.version = XPash::VERSION
 
-        opts.separator "Options are:"
-        opts.on("-f", "--file PATH",
+        o.separator "Options are:"
+        o.on("-f", "--file PATH",
                 "Specify file path.",
                 "Default, display prompt to input file path."){|path|
-          options[:filepath] = path
+          opts[:filepath] = path
         }
-        opts.on("-q", "--query \'XPATH\'",
+        o.on("-q", "--query \'XPATH\'",
                 "XPATH should be fasten with \"\'\".",
                 "When using this option with \'-f\' option,",
                 "display matched data and exit.",
                 "Without \'-f\' option, \'XPATH\' is used for",
                 "default path in XPash command line."){|query|
-          options[:query] = query
+          opts[:query] = query
         }
-        opts.on("-v", "--version",
-                "Show version.") {puts opts.ver; exit}
-        opts.on("-h", "--help",
-                "Show this help message.") {puts opts.help; exit}
+        o.on("-v", "--version",
+                "Show version.") {puts o.ver; exit}
+        o.on("-h", "--help",
+                "Show this help message.") {puts o.help; exit}
 
-        opts.parse!(argv)
+        o.parse!(argv)
 
-        if mandatory_options && mandatory_options.find { |option| options[option.to_sym].nil? }
-          puts "Error: option [#{mandatory_options.join(", ")}] are required."
-          puts opts.banner; exit
+        if mandatory_opts && mandatory_opts.find { |opt| opts[opt.to_sym].nil? }
+          puts "Error: option [#{mandatory_opts.join(", ")}] are required."
+          puts o.banner; exit
         end
       end
 
-      return options
+      return opts
 
     end
   end

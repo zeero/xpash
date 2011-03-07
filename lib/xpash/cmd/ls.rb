@@ -2,8 +2,8 @@ module XPash
   class Base
     def ls(*args)
       # parse args
-      o = get_optparse_ls
-      o.parse!(args)
+      opts = optparse_ls!(args)
+      return if opts[:end]
 
       @list.each do |e|
         case e
