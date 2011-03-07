@@ -1,7 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 require 'xpash/cli'
 
-describe XPash::CLI, "start" do
+describe XPash::CLI, ".start" do
   before(:each) do
     @stdout_io = StringIO.new
     $stdout = @stdout_io
