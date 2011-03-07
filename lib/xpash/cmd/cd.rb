@@ -1,6 +1,9 @@
 module XPash
   class Base
-    def cd(path = nil)
+    def cd(*args)
+      # parse args
+      # TODO
+      path = args.to_s
 
       case path
       when /^\//

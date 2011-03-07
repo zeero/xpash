@@ -11,26 +11,26 @@ module XPash
     def initialize(filepath)
       @doc = Nokogiri::HTML(open(filepath))
       @query = DEFAULT_PATH
-      @list = Array.new
+      @list = [@doc]
 
       @log = Logger.new($stdout)
       @log.datetime_format = "%Y-%m-%d %H:%M:%S"
       @log.level = Logger::WARN unless $DEBUG
+
       @log.debug_var binding, :filepath
     end
 
     def eval(input)
-      if "" == input
+      if /^ *$/ =~ input
         return
       end
 
-      input_a = input.split
-      command = input_a.shift
-      args = input_a.join(" ")
+      args = input.split
+      command = args.shift
       @log.debug_var binding, :command, :args
 
       if self.respond_to?(command)
-        self.send(command, args)
+        self.send(command, *args)
       else
         raise "\'#{command}\' is not xpash command."
       end

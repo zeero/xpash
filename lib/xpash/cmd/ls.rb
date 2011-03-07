@@ -9,7 +9,7 @@ module XPash
         o.parse!(args)
       }
 
-      @list.each {|e|
+      @list.each do |e|
         case e
         when Nokogiri::XML::Element
           # print element information
@@ -24,15 +24,15 @@ module XPash
           children = e.children
           if children.size > 0
             puts ":"
-            children.each {|child|
+            children.each do |child|
               # TODO
               puts child.ls
-            }
+            end
           end
 
           puts
         end
-      }
+      end
       return
     end
     alias :list :ls

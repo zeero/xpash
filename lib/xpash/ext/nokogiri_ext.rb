@@ -16,9 +16,9 @@ class Nokogiri::XML::Element
     if attr_a.size > 0
       first = attr_a.shift
       attr = "@#{first[0]}=\"#{first[1]}\""
-      attr_a.each {|key, value|
+      attr_a.each do |key, value|
         attr += " and @#{key}=\"#{value}\""
-      }
+      end
       exp += "[#{attr}]"
     end
 
