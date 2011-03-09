@@ -5,24 +5,23 @@ module XPash
     end
 
     def optparse_ls!(args)
-      @log.debug_var binding, :args
-      opts = {}
+      @cmd_opts = {}
       if ! @optparses[:ls]
         o = OptionParser.new(nil , 16)
         o.banner = "ls: Show matched elements."
         o.separator("Options:")
         o.on("-s", "--short", "Display elements with short format.") {
-          opts[:s] = true
+          @cmd_opts[:s] = true
         }
         o.on("-h", "--help", "Show this help message.") {
           puts o.help
-          opts[:end] = true
+          @cmd_opts[:end] = true
         }
         @optparses[:ls] = o
       end
       @optparses[:ls].parse!(args)
-      @log.debug_var binding, :opts
-      return opts
+      @log.debug_var binding, :args, "@cmd_opts"
+      return @cmd_opts
     end
   end
 end
