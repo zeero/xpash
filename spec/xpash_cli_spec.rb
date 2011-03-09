@@ -3,8 +3,7 @@ require 'xpash/cli'
 
 describe XPash::CLI, ".start" do
   before(:each) do
-    @stdout_io = StringIO.new
-    $stdout = @stdout_io
+    prepare_stdout
   end
 
   it "should print default frame." do
@@ -14,9 +13,7 @@ describe XPash::CLI, ".start" do
       XPash::CLI.start()
     rescue SystemExit
     end
-    @stdout_io.rewind
-    @stdout = @stdout_io.read
-    @stdout.should =~ /xpash:\/\/ > /
+    read_stdout.should =~ /xpash:\/\/ > /
   end
 
   it "with '-h' option, should print help message and exit." do
@@ -25,10 +22,9 @@ describe XPash::CLI, ".start" do
     rescue SystemExit => e
       e.should be_a_kind_of SystemExit
     end
-    @stdout_io.rewind
-    @stdout = @stdout_io.read
-    @stdout.should =~ /Usage/
-    @stdout.should =~ /Options are/
+    stdout = read_stdout
+    stdout.should =~ /Usage/
+    stdout.should =~ /Options are/
   end
 
   it "with '-v' option, should print 'MODULE_NAME VERSION' and exit." do

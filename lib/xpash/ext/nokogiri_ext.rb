@@ -1,12 +1,20 @@
-class Nokogiri::XML::Document
+class Nokogiri::XML::Node
+  def ls(opts = {})
+    return self.name
+  end
 end
+
 class Nokogiri::XML::Attr
+  def ls(opts = {})
+  end
 end
+
 class Nokogiri::XML::Text
-  def ls
+  def ls(opts = {})
     return %(text()[.="#{self.content.gsub(/\n/, "")}"])
   end
 end
+
 class Nokogiri::XML::Element
   def ls(opts = {})
     exp = self.name

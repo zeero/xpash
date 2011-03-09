@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/spec_helper.rb'
 
 describe XPash::Base, "cd command" do
   before do
-    @xpash = XPash::Base.new("#{File.dirname(__FILE__)}/../work/test.html")
+    @xpash = get_fixture
   end
 
   it "should return number of found elements." do
@@ -40,5 +40,7 @@ describe XPash::Base, "cd command" do
     @xpash.cd('[@class="wrapper" and @id="main"]').should == 1
     @xpash.query.should == '//div[@class="wrapper" and @id="main"]'
   end
+
+  it "when no input given, what should do...?"
 
 end
