@@ -37,6 +37,40 @@ module XPash
       end
     end
 
+    def getPath(base, appendix)
+      appendix.gsub!(/^\.\/[^\/]/, "")
+      appendix.gsub!(/\/{1,2}$/, "")
+
+      case appendix
+      when /^\//
+        # absolute path
+        return appendix
+      when /^\.\.\/?/
+        # go up
+        if /(^.*[^\/]+)\/+.+?$/ =~ base
+          new_base = $1
+          new_apdx = appendix.sub(/^\.\./, "")
+          @log.debug_var binding, :new_base, :new_apdx
+          if /^\/(\.\.\/?[^\/]*)/ =~ new_apdx
+            return getPath(new_base, $1)
+          else
+            return new_base + new_apdx
+          end
+        else
+          return ROOT_PATH
+        end
+      when /^\[/
+        # add condition
+        return base + appendix
+      else
+        if /\/$/ =~ base
+          return base + appendix
+        else
+          return base + "/" + appendix
+        end
+      end
+    end
+
     def self.xpath(filepath, query)
       doc = Nokogiri::HTML(open(filepath))
       return doc.xpath(query).map {|e| e.to_s}
