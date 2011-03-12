@@ -20,13 +20,14 @@ describe XPash::Base, "#getPath" do
   it "should deal prefix '/' as go root path sign."
 
   it "should deal prefix '..' as go up sign repeatedly." do
+    getPath("//div/footer", "h3").should == "//div/footer/h3"
     getPath("//div/footer", "./h3").should == "//div/footer/h3"
-    getPath("//div/footer", ".//h3").should == "//div/footer//h3"
+    getPath("//div/footer", ".//h3").should == "//div/footer/.//h3"
     getPath("//div/footer/h3", "..").should == "//div/footer"
     getPath("//div/footer/h3", "../").should == "//div/footer"
     getPath("//div/footer/h3", "../..").should == "//div"
     getPath("//div/footer/h3", "../../").should == "//div"
-    getPath("//div/footer/h3", "..//../").should == "//div/footer//../"
+    getPath("//div/footer/h3", "..//../").should == "//div/footer//.."
     getPath("//div/footer/h3", "../../header").should == "//div/header"
     getPath("//div/footer/h3", "../..//header").should == "//div//header"
   end
