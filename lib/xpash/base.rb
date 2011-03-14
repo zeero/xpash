@@ -3,7 +3,7 @@ require 'xpash/cmd/commands'
 module XPash
   class Base
 
-    DEFAULT_PATH = "//"
+    DEFAULT_PATH = "/"
     ROOT_PATH = "/"
 
     attr_reader :query

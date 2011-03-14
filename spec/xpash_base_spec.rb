@@ -3,13 +3,18 @@ require File.dirname(__FILE__) + '/spec_helper.rb'
 describe XPash::Base do
   before do
     @xpash = get_fixture
+    prepare_stdout
   end
 
-  it "should has '//' as @query, default." do
-    @xpash.query.should eql "//"
+  it "should has '/' as @query, default." do
+    @xpash.query.should eql "/"
   end
 
-  it "should has Document in @list, default."
+  it "should has Document in @list, default." do
+    @xpash.ls.should == nil
+    stdout = read_stdout
+    stdout.should eql ""
+  end
 
 end
 
@@ -22,6 +27,7 @@ describe XPash::Base, "#getPath" do
     @xpash.getPath("//div/footer", "h3").should == "//div/footer/h3"
     @xpash.getPath("//div/footer", "./h3").should == "//div/footer/h3"
     @xpash.getPath("//div/footer", ".//h3").should == "//div/footer/.//h3"
+    @xpash.getPath("//div/footer", "").should == "/"
     @xpash.getPath("//div/footer", ".").should == "//div/footer"
     @xpash.getPath("//div/footer", "./").should == "//div/footer"
     @xpash.getPath("//div/footer", ".//").should == "//div/footer/.//"
