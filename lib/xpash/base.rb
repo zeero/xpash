@@ -38,20 +38,23 @@ module XPash
     end
 
     def getPath(base, appendix)
-      appendix.gsub!(/^\.\/[^\/]/, "")
-      appendix.gsub!(/\/{1,2}$/, "")
+      # remove prefix './' (except for './/')
+      appendix.gsub!(/^\.\/([^\/]+)/) {|t| $1 }
+      # remove suffix '/'
+      appendix.gsub!(/([^\/]+)\/$/) {|t| $1 }
 
       case appendix
       when /^\//
         # absolute path
         return appendix
-      when /^\.\.\/?/
+      when /^\.\.(\/|$)/
         # go up
         if /(^.*[^\/]+)\/+.+?$/ =~ base
           new_base = $1
           new_apdx = appendix.sub(/^\.\./, "")
           @log.debug_var binding, :new_base, :new_apdx
-          if /^\/(\.\.\/?[^\/]*)/ =~ new_apdx
+          # apply recursively when have more up sign
+          if /^\/(\.\.\/?.*)/ =~ new_apdx
             return getPath(new_base, $1)
           else
             return new_base + new_apdx
@@ -62,6 +65,12 @@ module XPash
       when /^\[/
         # add condition
         return base + appendix
+      when /^\.$/
+        # return current
+        return base
+      when /^$/
+        # return current
+        return DEFAULT_PATH
       else
         if /\/$/ =~ base
           return base + appendix

@@ -11,7 +11,7 @@ end
 
 class Nokogiri::XML::Text
   def ls(opts = {})
-    return %(text()[.="#{self.content.gsub(/\n/, "")}"])
+    return %(text()[.="#{self.content.gsub(/\n/, "\\n")}"])
   end
 end
 

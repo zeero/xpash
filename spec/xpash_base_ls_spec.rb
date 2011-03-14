@@ -21,7 +21,7 @@ describe XPash::Base, "ls command" do
     @xpash.ls
     stdout = read_stdout
     stdout.should =~ %r(//div\[@class="wrapper" and @id="main"\]:\n)
-    stdout.should =~ %r(text\(\)\[\.="\t\t"\])
+    stdout.should =~ %r(text\(\)\[\.="\\n\t\t"\])
     stdout.should =~ %r(aside)
     stdout.should =~ %r(article)
   end
