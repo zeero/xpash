@@ -44,8 +44,15 @@ describe XPash::Base, "#getPath" do
     @xpash.getPath("//div/footer/h3", "../../header").should == "//div/header"
     @xpash.getPath("//div/footer/h3", "../..//header").should == "//div//header"
     @xpash.getPath("//div/footer/h3", "...").should == "//div/footer/h3/..."
+    @xpash.getPath("//div/footer/h3", "../[@id=\"test\"]").should == "//div/footer/[@id=\"test\"]"
   end
 
-  it "should deal prefix and suffix '\"' and ''' as ignore sign about other specs."
+  it "should deal prefix and suffix '\"' and ''' \n\s\s" +
+     "as ignore sign about other specs." do
+    @xpash.getPath("//div", "\"..\"").should == "//div/.."
+    @xpash.getPath("//div", "\'..\'").should == "//div/.."
+    @xpash.getPath("//div", "\"foo bar\"").should == "//div/foo bar"
+    @xpash.getPath("//div", "\"foo\sbar\/\"").should == "//div/foo bar/"
+  end
 
 end
