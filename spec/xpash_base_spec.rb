@@ -12,8 +12,7 @@ describe XPash::Base do
 
   it "should has Document in @list, default." do
     @xpash.ls.should == nil
-    stdout = read_stdout
-    stdout.should eql ""
+    read_stdout.should eql ""
   end
 
 end

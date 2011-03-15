@@ -7,7 +7,7 @@ describe XPash::Base, "ls command" do
   end
 
   it "should show top level elements in @list." do
-    @xpash.cd("div")
+    @xpash.cd("//div")
     @xpash.ls
     stdout = read_stdout
     stdout.should =~ %r(//div\[@id="header-container"\]:)
