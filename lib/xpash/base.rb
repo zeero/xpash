@@ -72,8 +72,8 @@ module XPash
         # return default
         return DEFAULT_PATH
       when /^\".*\"$/, /^\'.*\'$/
-        # should add appendix with '/'
-        return base + "/" + Kernel.eval(appendix)
+        # should add appendix only
+        return base + Kernel.eval(appendix)
       else
         if /\/$/ =~ base
           return base + appendix

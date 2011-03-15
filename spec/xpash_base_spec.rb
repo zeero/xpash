@@ -24,10 +24,11 @@ describe XPash::Base, "#getPath" do
 
   it "should return xpath expression concatinating 2 args with '/'." do
     @xpash.getPath("//div/footer", "h3").should == "//div/footer/h3"
+  end
+
+  it "should omit prefix './' and suffix '/', but should not omit prefix './/'." do
     @xpash.getPath("//div/footer", "./h3").should == "//div/footer/h3"
     @xpash.getPath("//div/footer", ".//h3").should == "//div/footer/.//h3"
-    @xpash.getPath("//div/footer", "").should == "/"
-    @xpash.getPath("//div/footer", ".").should == "//div/footer"
     @xpash.getPath("//div/footer", "./").should == "//div/footer"
     @xpash.getPath("//div/footer", ".//").should == "//div/footer/.//"
   end
@@ -52,12 +53,26 @@ describe XPash::Base, "#getPath" do
     @xpash.getPath("//div/footer/h3", "../[@id=\"test\"]").should == "//div/footer/[@id=\"test\"]"
   end
 
+  it "should deal prefix '[' as add condition sign" do
+    @xpash.getPath("//div", '[@class="test" and @id="test"]').should == '//div[@class="test" and @id="test"]'
+  end
+
+  it "should return current path, when 2nd argument is '.'" do
+    @xpash.getPath("//div/footer", ".").should == "//div/footer"
+    @xpash.getPath("//div/footer", "../.").should == "//div/."
+  end
+
+  it "should return default path, when 2nd argument is not given" do
+    @xpash.getPath("//div/footer", "").should == "/"
+  end
+
   it "should deal prefix and suffix '\"' and ''' \n\s\s" +
      "as ignore sign about other specs." do
-    @xpash.getPath("//div", "\"..\"").should == "//div/.."
-    @xpash.getPath("//div", "\'..\'").should == "//div/.."
-    @xpash.getPath("//div", "\"foo bar\"").should == "//div/foo bar"
-    @xpash.getPath("//div", "\"foo\sbar\/\"").should == "//div/foo bar/"
+    @xpash.getPath("//div", "\"/..\"").should == "//div/.."
+    @xpash.getPath("//div", "\'/..\'").should == "//div/.."
+    @xpash.getPath("//div", "\"//p\"").should == "//div//p"
+    @xpash.getPath("//div", "\"/foo bar\"").should == "//div/foo bar"
+    @xpash.getPath("//div", "\"/foo\sbar\/\"").should == "//div/foo bar/"
   end
 
 end
