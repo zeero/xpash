@@ -5,14 +5,24 @@ module XPash
       opts = optparse_ls!(args)
       return if opts[:end]
 
-      @list.each do |e|
+      # get query & list
+      if args[0] == nil
+        query = @query
+        list = @list
+      else
+        query = getPath(@query, args[0])
+        list = @doc.xpath(query)
+      end
+
+      # display
+      list.each do |e|
         case e
         when Nokogiri::XML::Element
           # print element information
-          if /(.*\/+)[^\/]+?$/ =~ @query
+          if /(.*\/+)[^\/]+?$/ =~ query
             path = $1
           else
-            path = @query
+            path = query
           end
           print %(#{path}#{e.ls(nil)})
 
