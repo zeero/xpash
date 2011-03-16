@@ -13,7 +13,7 @@ Hoe.plugin :newgem
 $hoe = Hoe.spec 'xpash' do
   self.developer 'zeero', 'zeero26@gmail.com'
   self.post_install_message = 'PostInstall.txt' # TODO remove if post-install message not required
-  self.rubyforge_name       = self.name # TODO this is default value
+  self.rubyforge_name       = self.name
   # self.extra_deps         = [['activesupport','>= 2.0.2']]
 
 end
@@ -21,6 +21,6 @@ end
 require 'newgem/tasks'
 Dir['tasks/**/*.rake'].each { |t| load t }
 
-# TODO - want other tests/tasks run by default? Add them to the list
-# remove_task :default
-# task :default => [:spec, :features]
+# want other tests/tasks run by default? Add them to the list
+remove_task :default
+task :default => ["spec:rcov"]
