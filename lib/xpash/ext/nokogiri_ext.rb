@@ -39,9 +39,19 @@ end
 class Nokogiri::XML::Text
   def ls(opts = {})
     if ! opts[:short]
-      return %(text\(\)[.="#{self.content.gsub(/\n/, '\n')}"])
+      return %(text\(\)[.='#{self.content.gsub(/\n/, '\n')}'])
     else
       return "text()"
+    end
+  end
+end
+
+class Nokogiri::XML::Comment
+  def ls(opts = {})
+    if ! opts[:short]
+      return %(comment\(\)[.='#{self.content.gsub(/\n/, '\n')}'])
+    else
+      return "comment()"
     end
   end
 end

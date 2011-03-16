@@ -21,7 +21,7 @@ describe XPash::Base, "ls command" do
     @xpash.ls
     stdout = read_stdout
     stdout.should =~ %r(//div\[@class="wrapper" and @id="main"\]:\n)
-    stdout.should =~ %r(text\(\)\[\.="\\n\t\t"\])
+    stdout.should =~ %r(text\(\)\[\.='\\n\t\t'\])
     stdout.should =~ %r(aside)
     stdout.should =~ %r(article)
   end
@@ -32,7 +32,7 @@ describe XPash::Base, "ls command" do
     stdout = read_stdout
     stdout.should =~ %r(//div\[@id="header-container"\]/header\[@class="wrapper"\]:\n)
     stdout.should =~ %r(h1\[@id="title"\])
-    stdout.should =~ %r(text\(\)\[\.="\\n\t\t\t"\])
+    stdout.should =~ %r(text\(\)\[\.='\\n\t\t\t'\])
     stdout.should =~ %r(nav)
   end
 

@@ -59,7 +59,7 @@ describe Nokogiri::XML::Text, "#ls (extended method)" do
   end
 
   it "should return xpath expression about itself." do
-    @elem.ls.should == 'text()[.="foobarbaz"]'
+    @elem.ls.should == "text()[.='foobarbaz']"
   end
 end
 

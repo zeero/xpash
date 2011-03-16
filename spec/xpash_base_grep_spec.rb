@@ -13,9 +13,9 @@ describe XPash::Base, "grep command" do
     @xpash.grep("Your")
 
     stdout = read_stdout
-    stdout.should =~ /"Your title"/
-    stdout.should =~ /"Your article heading"/
-    stdout.should_not =~ /"Your HTML5 project is almost ready! Please check the "/
+    stdout.should =~ /'Your title'/
+    stdout.should =~ /'Your article heading'/
+    stdout.should_not =~ /'Your HTML5 project is almost ready! Please check the '/
   end
 
   it "should return number of found elements." do

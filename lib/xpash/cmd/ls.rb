@@ -20,6 +20,7 @@ module XPash
         if /(.*\/+)[^\/]+?$/ =~ query
           path = $1
         else
+          # when target is '/'
           path = query
         end
         print %(#{path}#{e.ls(opts)})
