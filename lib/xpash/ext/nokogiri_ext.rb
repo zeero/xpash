@@ -6,6 +6,7 @@ end
 
 class Nokogiri::XML::Attr
   def ls(opts = {})
+    return "@#{self.name}=\"#{self.value}\""
   end
 end
 
@@ -22,10 +23,9 @@ class Nokogiri::XML::Element
     # get attributes expression
     attr_a = self.attributes
     if attr_a.size > 0
-      first = attr_a.shift
-      attr = "@#{first[0]}=\"#{first[1]}\""
-      attr_a.each do |key, value|
-        attr += " and @#{key}=\"#{value}\""
+      attr = attr_a.shift[1].ls
+      attr_a.each_value do |a|
+        attr += " and #{a.ls}"
       end
       exp += "[#{attr}]"
     end

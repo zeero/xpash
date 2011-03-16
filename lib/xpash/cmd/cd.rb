@@ -5,7 +5,7 @@ module XPash
       opts = optparse_cd!(args)
       return if opts[:end]
 
-      query = getPath(@query, args.to_s)
+      query = getPath(@query, args.join(" "))
 
       @list = @doc.xpath(query)
       @query = query
@@ -16,7 +16,7 @@ module XPash
       @cmd_opts = {}
       if ! @optparses[:cd]
         o = OptionParser.new(nil , 16)
-        o.banner = "cd: Change datum point."
+        o.banner = "Usage: cd [OPTION] [QUERY]"
         o.separator("Options:")
         o.on("-h", "--help", "Show this help message.") {
           puts o.help
@@ -26,7 +26,6 @@ module XPash
       end
       @optparses[:cd].parse!(args)
       @log.debug_var binding, :args, "@cmd_opts"
-      raise ArgumentError if args.size > 1
       return @cmd_opts
     rescue Exception => e
       raise e.to_s

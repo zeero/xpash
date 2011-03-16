@@ -47,7 +47,7 @@ module XPash
       @cmd_opts = {}
       if ! @optparses[:ls]
         o = OptionParser.new(nil , 16)
-        o.banner = "ls: Show matched elements."
+        o.banner = "Usage: ls [OPTION] [QUERY]"
         o.separator("Options:")
         o.on("-s", "--short", "Display elements with short format.") {
           @cmd_opts[:s] = true
