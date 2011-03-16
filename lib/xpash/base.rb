@@ -9,7 +9,7 @@ module XPash
     attr_reader :query
 
     def initialize(filepath)
-      @doc = Nokogiri::HTML(open(filepath))
+      @doc = Nokogiri::XML(open(filepath))
       @query = DEFAULT_PATH
       @list = [@doc]
       @optparses = {}
