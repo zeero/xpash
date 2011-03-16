@@ -42,10 +42,8 @@ describe XPash::Base, "cd command" do
   end
 
   it "when no input given, should go to default path" do
-    @xpash.cd("")
+    @xpash.cd("").should == 1
     @xpash.query.should == '/'
-    @xpash.ls
-    read_stdout.should eql ""
   end
 
 end

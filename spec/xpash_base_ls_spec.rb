@@ -26,7 +26,7 @@ describe XPash::Base, "ls command" do
     stdout.should =~ %r(article)
   end
 
-  it "with argument, should show element from added position current query and argument" do
+  it "with argument, should show element from added position current query and argument." do
     @xpash.cd('//div[@id="header-container"]')
     @xpash.ls("header")
     stdout = read_stdout
@@ -34,6 +34,26 @@ describe XPash::Base, "ls command" do
     stdout.should =~ %r(h1\[@id="title"\])
     stdout.should =~ %r(text\(\)\[\.="\\n\t\t\t"\])
     stdout.should =~ %r(nav)
+  end
+
+  it "in root path, should return top level elements." do
+    @xpash.cd("")
+    @xpash.ls
+    stdout = read_stdout
+    stdout.should =~ /html/
+  end
+
+  it "with '-s, --short' option, should return its tag name only." do
+    @xpash.cd('//div[@class="wrapper" and @id="main"]')
+    @xpash.ls("--short")
+    stdout = read_stdout
+    stdout.should == "//div:\ntext()\naside\narticle\n\n"
+  end
+
+  it "with '-h, --help' option, should show help message." do
+    @xpash.ls("-h")
+    stdout = read_stdout
+    stdout.should =~ /Usage: /
   end
 
 end

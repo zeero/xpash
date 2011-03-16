@@ -4,19 +4,9 @@ class Nokogiri::XML::Node
   end
 end
 
-class Nokogiri::XML::Attr
+class Nokogiri::XML::Document
   def ls(opts = {})
-    return %(@#{self.name}="#{self.value}")
-  end
-end
-
-class Nokogiri::XML::Text
-  def ls(opts = {})
-    if ! opts[:short]
-      return %(text\(\)[.="#{self.content.gsub(/\n/, '\n')}"])
-    else
-      return "text()"
-    end
+    return ""
   end
 end
 
@@ -39,3 +29,20 @@ class Nokogiri::XML::Element
     return exp
   end
 end
+
+class Nokogiri::XML::Attr
+  def ls(opts = {})
+    return %(@#{self.name}="#{self.value}")
+  end
+end
+
+class Nokogiri::XML::Text
+  def ls(opts = {})
+    if ! opts[:short]
+      return %(text\(\)[.="#{self.content.gsub(/\n/, '\n')}"])
+    else
+      return "text()"
+    end
+  end
+end
+

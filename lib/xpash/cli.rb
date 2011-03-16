@@ -43,7 +43,7 @@ module XPash
 
       opts = {
         # TODO: development setting
-        :filepath     => "#{File.dirname(__FILE__)}/../../work/test.html"
+        :filepath => "#{File.dirname(__FILE__)}/../../spec/fixture/default.html"
       }
       mandatory_opts = %w(  )
 

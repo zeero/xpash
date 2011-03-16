@@ -1,17 +1,23 @@
 require File.dirname(__FILE__) + '/spec_helper.rb'
 
-describe Nokogiri::XML::Attr, "#ls (extended method)" do
+describe Nokogiri::XML::Node, "#ls (extended method)" do
   before do
     @doc = Nokogiri::HTML(open(FIXTURE_DIR + "/default.html"))
-    @elem = Nokogiri::XML::Element.new("h1", @doc)
-    @elem['id'] = "foo"
-    @attr = @elem.attribute('id')
   end
 
-  it "should return xpath expression about itself." do
-    @attr.ls.should == "@id=\"foo\""
+  it "should return their name." do
+    @doc.ls.should == ""
+  end
+end
+
+describe Nokogiri::XML::Document, "#ls (extended method)" do
+  before do
+    @doc = Nokogiri::HTML(open(FIXTURE_DIR + "/default.html"))
   end
 
+  it "should return empty String." do
+    @doc.ls.should == ""
+  end
 end
 
 describe Nokogiri::XML::Element, "#ls (extended method)" do
@@ -32,6 +38,20 @@ describe Nokogiri::XML::Element, "#ls (extended method)" do
   end
 end
 
+describe Nokogiri::XML::Attr, "#ls (extended method)" do
+  before do
+    @doc = Nokogiri::HTML(open(FIXTURE_DIR + "/default.html"))
+    @elem = Nokogiri::XML::Element.new("h1", @doc)
+    @elem['id'] = "foo"
+    @attr = @elem.attribute('id')
+  end
+
+  it "should return xpath expression about itself." do
+    @attr.ls.should == "@id=\"foo\""
+  end
+
+end
+
 describe Nokogiri::XML::Text, "#ls (extended method)" do
   before do
     @doc = Nokogiri::HTML(open(FIXTURE_DIR + "/default.html"))
@@ -40,16 +60,6 @@ describe Nokogiri::XML::Text, "#ls (extended method)" do
 
   it "should return xpath expression about itself." do
     @elem.ls.should == 'text()[.="foobarbaz"]'
-  end
-end
-
-describe Nokogiri::XML::Node, "#ls (extended method)" do
-  before do
-    @doc = Nokogiri::HTML(open(FIXTURE_DIR + "/default.html"))
-  end
-
-  it "should return their name." do
-    @doc.ls.should == "document"
   end
 end
 

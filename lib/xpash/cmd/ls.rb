@@ -16,27 +16,24 @@ module XPash
 
       # display
       list.each do |e|
-        case e
-        when Nokogiri::XML::Element
-          # print element information
-          if /(.*\/+)[^\/]+?$/ =~ query
-            path = $1
-          else
-            path = query
-          end
-          print %(#{path}#{e.ls(opts)})
-
-          # print childs
-          children = e.children
-          if children.size > 0
-            puts ":"
-            children.each do |child|
-              puts child.ls(opts)
-            end
-          end
-
-          puts
+        # print element information
+        if /(.*\/+)[^\/]+?$/ =~ query
+          path = $1
+        else
+          path = query
         end
+        print %(#{path}#{e.ls(opts)})
+
+        # print childs
+        children = e.children
+        if children.size > 0
+          puts ":"
+          children.each do |child|
+            puts child.ls(opts)
+          end
+        end
+
+        puts
       end
       return
     end
