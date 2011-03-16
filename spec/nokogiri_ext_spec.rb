@@ -23,11 +23,13 @@ describe Nokogiri::XML::Element, "#ls (extended method)" do
     @elem.content = "baz"
   end
 
-  it "should return XPath expression about itself." do
+  it "should return XPath expression about itself include its attributes." do
     @elem.ls.should == 'h1[@class="bar" and @id="foo"]'
   end
 
-  it "when opts[:s] set in args, should return its tag name."
+  it "when opts[:short] set in args, should return its tag name only." do
+    @elem.ls({:short => true}).should == 'h1'
+  end
 end
 
 describe Nokogiri::XML::Text, "#ls (extended method)" do

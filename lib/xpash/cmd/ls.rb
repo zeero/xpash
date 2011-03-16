@@ -6,7 +6,7 @@ module XPash
       return if opts[:end]
 
       # get query & list
-      if args[0] == nil
+      if ! args[0]
         query = @query
         list = @list
       else
@@ -24,15 +24,14 @@ module XPash
           else
             path = query
           end
-          print %(#{path}#{e.ls(nil)})
+          print %(#{path}#{e.ls(opts)})
 
           # print childs
           children = e.children
           if children.size > 0
             puts ":"
             children.each do |child|
-              # TODO
-              puts child.ls
+              puts child.ls(opts)
             end
           end
 
@@ -50,7 +49,7 @@ module XPash
         o.banner = "Usage: ls [OPTION] [QUERY]"
         o.separator("Options:")
         o.on("-s", "--short", "Display elements with short format.") {
-          @cmd_opts[:s] = true
+          @cmd_opts[:short] = true
         }
         o.on("-h", "--help", "Show this help message.") {
           puts o.help

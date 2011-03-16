@@ -26,4 +26,28 @@ describe XPash::Base, "ls command" do
     stdout.should =~ %r(article)
   end
 
+  it "with argument, should show element from added position current query and argument" do
+    @xpash.cd('//div[@id="header-container"]')
+    @xpash.ls("header")
+    stdout = read_stdout
+    stdout.should =~ %r(//div\[@id="header-container"\]/header\[@class="wrapper"\]:\n)
+    stdout.should =~ %r(h1\[@id="title"\])
+    stdout.should =~ %r(text\(\)\[\.="\\n\t\t\t"\])
+    stdout.should =~ %r(nav)
+  end
+
+end
+
+describe XPash::Base, "#optparse_ls!" do
+  before do
+    @xpash = get_fixture
+  end
+
+  it "should parse 'ls' command arguments." do
+    args = %w(foo bar -s)
+    opts = @xpash.optparse_ls!(args)
+    opts.should == {:short => true}
+    args.should == ["foo", "bar"]
+  end
+
 end
