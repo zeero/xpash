@@ -24,8 +24,19 @@ describe XPash::Base, "grep command" do
 
   it "should raise 'ArgumentError('wrong number of arguments (0 for 1)')'," +
      "\n\s\sif user don't give keyword."
-  it "with 2nd argument, should search from query added 2nd argument to current query."
+
+  it "with 2nd argument, should search from query added 2nd argument to current query." do
+    @xpash.cd("//div")
+    @xpash.grep("Your", "article").should == 1
+
+    stdout = read_stdout
+    stdout.should_not =~ /'Your title'/
+    stdout.should =~ /'Your article heading'/
+    stdout.should_not =~ /'Your HTML5 project is almost ready! Please check the '/
+  end
+
   it "with '-a' option, should search in document"
+
   it "with '-c' option, should also show children of found elements"
 
 end

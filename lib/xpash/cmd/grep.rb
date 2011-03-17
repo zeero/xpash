@@ -6,8 +6,7 @@ module XPash
 
       keyword = args[0]
       if args[1]
-        # BUG
-        node_ary = @list.map {|node| node.xpath("./" + args[1])}
+        node_ary = @doc.xpath(getPath(@query, args[1]))
       else
         node_ary = @list
       end
