@@ -8,6 +8,8 @@ require 'rubygems'
 require 'nokogiri'
 
 require 'xpash/base'
+require 'xpash/return_signal'
+require 'xpash/cmd/cmd_optparse'
 require 'xpash/ext/nokogiri_ext.rb'
 require 'xpash/ext/logger_ext.rb'
 
