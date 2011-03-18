@@ -27,5 +27,16 @@ module XPash
 
     def add_officious
     end
+
+    alias :original_separator :separator
+    def separator(string)
+      original_separator("")
+      original_separator(string)
+    end
+
+    def describe(string)
+      original_separator(@summary_indent + string)
+    end
+
   end
 end
