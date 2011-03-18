@@ -51,7 +51,7 @@ describe XPash::Base, "ls command" do
   end
 
   it "with '-h, --help' option, should show help message." do
-    @xpash.ls("-h")
+    lambda{@xpash.ls("-h")}.should raise_error(XPash::ReturnSignal)
     stdout = read_stdout
     stdout.should =~ /Usage: /
   end

@@ -13,9 +13,11 @@ describe XPash::CmdOptionParser do
     @foo.foo(%w(foo -l -s bar)).should == {:s=>true, :long=>true}
     @foo.foo(%w(foo -l -a baz -s)).should == {:s=>true, :long=>true, :arg=>"baz"}
   end
-  it "with '-h' or '--help' option, should raise XPash::ReturnSignal," +
-     "\n\s\sbut no SystemExit" do
+  it "with '-h' or '--help' option, should display help message\n\s\s" +
+     "and raise XPash::ReturnSignal, but no SystemExit." do
     lambda{@foo.foo(%w(foo -a baz -h))}.should raise_error(XPash::ReturnSignal)
+    stdout = read_stdout
+    stdout.should =~ /[^\n]\n\s{4}-h, --help       Show this help message\.\n/
   end
 
   it "with '-v' or '--version' option, should not parse valid option" +
@@ -23,13 +25,13 @@ describe XPash::CmdOptionParser do
     lambda{@foo.foo(%w(foo -l -v))}.should raise_error(OptionParser::InvalidOption)
   end
 
-  it "'#describe' should show message with indent" do
+  it "'#describe' should show message with indent." do
     lambda{@foo.foo(%w(foo -a baz -h))}.should raise_error(XPash::ReturnSignal)
     stdout = read_stdout
     stdout.should =~ /[^\n]\n\s{4}#{Foo::Description}\n/
   end
 
-  it "'#separate' should show message with indent" do
+  it "'#separate' should show message with indent." do
     lambda{@foo.foo(%w(foo --help))}.should raise_error(XPash::ReturnSignal)
     stdout = read_stdout
     stdout.should =~ /[^\n]\n\n#{Foo::Separator}\n/
@@ -42,7 +44,7 @@ class Foo
   Separator = "Options:"
 
   def optparse!(args)
-    if ! @optp
+    unless @optp
       o = XPash::CmdOptionParser.new
       o.banner = "option parser test class"
       o.separator Separator

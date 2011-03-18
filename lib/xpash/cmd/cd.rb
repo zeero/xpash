@@ -14,7 +14,7 @@ module XPash
 
     def optparse_cd!(args)
       @cmd_opts = {}
-      if ! @optparses[:cd]
+      unless @optparses[:cd]
         o = OptionParser.new(nil , 16)
         o.banner = "Usage: cd [OPTION] [QUERY]"
         o.separator("Options:")

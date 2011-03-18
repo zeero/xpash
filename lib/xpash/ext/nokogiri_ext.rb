@@ -14,7 +14,7 @@ class Nokogiri::XML::Element
   def ls(opts = {})
     exp = self.name
 
-    if ! opts[:short]
+    unless opts[:short]
       # get attributes expression
       attr_a = self.attributes
       if attr_a.size > 0
@@ -38,7 +38,7 @@ end
 
 class Nokogiri::XML::Text
   def ls(opts = {})
-    if ! opts[:short]
+    unless opts[:short]
       return %(text\(\)[.='#{self.content.gsub(/\n/, '\n')}'])
     else
       return "text()"
@@ -48,7 +48,7 @@ end
 
 class Nokogiri::XML::Comment
   def ls(opts = {})
-    if ! opts[:short]
+    unless opts[:short]
       return %(comment\(\)[.='#{self.content.gsub(/\n/, '\n')}'])
     else
       return "comment()"

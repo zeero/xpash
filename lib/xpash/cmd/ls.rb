@@ -3,10 +3,9 @@ module XPash
     def ls(*args)
       # parse args
       opts = optparse_ls!(args)
-      return if opts[:end]
 
       # get query & list
-      if ! args[0]
+      unless args[0]
         query = @query
         list = @list
       else
@@ -41,23 +40,16 @@ module XPash
     alias :list :ls
 
     def optparse_ls!(args)
-      @cmd_opts = {}
-      if ! @optparses[:ls]
-        o = OptionParser.new(nil , 16)
+      unless @optparses[:ls]
+        o = CmdOptionParser.new
         o.banner = "Usage: ls [OPTION] [QUERY]"
         o.separator("Options:")
-        o.on("-s", "--short", "Display elements with short format.") {
-          @cmd_opts[:short] = true
-        }
-        o.on("-h", "--help", "Show this help message.") {
-          puts o.help
-          @cmd_opts[:end] = true
-        }
+        o.on("-s", "--short", "Display elements with short format.")
         @optparses[:ls] = o
       end
-      @optparses[:ls].parse!(args)
-      @log.debug_var binding, :args, "@cmd_opts"
-      return @cmd_opts
+      opts = @optparses[:ls].parse!(args)
+      @log.debug_var binding, :args, :opts
+      return opts
     end
 
   end
