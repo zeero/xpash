@@ -5,11 +5,11 @@ module XPash
       opts = optparse_ls!(args)
 
       # get query & list
-      unless args[0]
+      if args.empty?
         query = @query
         list = @list
       else
-        query = getPath(@query, args[0])
+        query = getPath(@query, args.join(" "))
         list = @doc.xpath(query)
       end
 
