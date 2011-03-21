@@ -66,6 +66,6 @@ describe XPash::Base, "grep command" do
     stdout.should_not =~ /'Your HTML5 project is almost ready! Please check the '/
   end
 
-  it "with '-c' option, should also show children of found elements."
+  it "with '-s, --short' option, should display short XPath expression."
 
 end

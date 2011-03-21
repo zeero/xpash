@@ -33,7 +33,6 @@ module XPash
         o.banner = "Usage: grep [OPTION] KEYWORD [PATH]"
         o.separator("Options:")
         o.on("-a", "--all", "Search from document root.")
-        o.on("-c", "--with-children", "Display child nodes of found elements.")
         o.on("-s", "--short", "Display elements with short format.")
         @optparses[:grep] = o
       end

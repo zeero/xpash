@@ -43,7 +43,7 @@ describe XPash::Base, "ls command" do
     stdout.should =~ /html/
   end
 
-  it "with '-s, --short' option, should return its tag name only." do
+  it "with '-s, --short' option, should display short XPath expression." do
     @xpash.cd('//div[@class="wrapper" and @id="main"]')
     @xpash.ls("--short")
     stdout = read_stdout
