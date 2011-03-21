@@ -2,10 +2,12 @@ module XPash
   class Base
     def grep(*args)
       # parse args
-      # TODO
+      opts = optparse_grep!(args)
 
       keyword = args[0]
-      if args[1]
+      if opts[:all]
+        node_ary = [@doc]
+      elsif args[1]
         node_ary = @doc.xpath(getPath(@query, args[1]))
       else
         node_ary = @list
@@ -24,5 +26,21 @@ module XPash
       end
       return matches.flatten.size
     end
+
+    def optparse_grep!(args)
+      unless @optparses[:grep]
+        o = CmdOptionParser.new(1, nil, 20)
+        o.banner = "Usage: grep [OPTION] KEYWORD [PATH]"
+        o.separator("Options:")
+        o.on("-a", "--all", "Search from document root.")
+        o.on("-c", "--with-children", "Display child nodes of found elements.")
+        o.on("-s", "--short", "Display elements with short format.")
+        @optparses[:grep] = o
+      end
+      opts = @optparses[:grep].parse!(args)
+      @log.debug_var binding, :args, :opts
+      return opts
+    end
+
   end
 end
