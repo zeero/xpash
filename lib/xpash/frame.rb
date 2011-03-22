@@ -3,10 +3,10 @@ module XPash
     def self.display(xpash)
       print "xpash:#{xpash.query} > "
 
-      input = gets
+      input = $stdin.gets
       unless input
         puts
-        next
+        return
       end
 
       result = xpash.eval(input.chomp)

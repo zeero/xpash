@@ -13,7 +13,7 @@ module XPash
       # check options
       unless opts[:filepath]
         puts "file path?"
-        filepath = gets
+        filepath = $stdin.gets
         puts
       end
       if File::ALT_SEPARATOR
@@ -33,7 +33,7 @@ module XPash
 
       # main loop
       Signal.trap(:INT, nil)
-      while true do
+      loop do
         XPash::Frame.display(xpash)
       end
 
