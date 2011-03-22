@@ -20,7 +20,7 @@ module XPash
           path = tnode.ancestors.reverse.map {|anc|
             anc.name unless anc.kind_of? Nokogiri::XML::Document
           }
-          path << tnode.ls
+          path << tnode.ls({:short => opts[:short]})
           puts path.join("/")
         end
       end

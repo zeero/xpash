@@ -66,6 +66,14 @@ describe XPash::Base, "grep command" do
     stdout.should_not =~ /'Your HTML5 project is almost ready! Please check the '/
   end
 
-  it "with '-s, --short' option, should display short XPath expression."
+  it "with '-s, --short' option, should display short XPath expression." do
+    @xpash.cd("//div")
+    @xpash.grep("-s", "Your").should == 2
+
+    stdout = read_stdout
+    stdout.scan(/text\(\)/).size.should == 2
+    stdout.should_not =~ /'Your title'/
+    stdout.should_not =~ /'Your article heading'/
+  end
 
 end
