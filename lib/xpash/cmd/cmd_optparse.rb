@@ -1,8 +1,10 @@
 module XPash
   class CmdOptionParser < OptionParser
+    attr_accessor :min_args, :default_opts
 
-    def initialize(min_args = nil, banner = nil, width = 16, indent = ' ' * 4)
-      @min_args = min_args
+    def initialize(banner = nil, width = 16, indent = ' ' * 4)
+      @min_args = 0
+      @default_opts = {}
       super(banner, width, indent) {|o|
         o.on_tail("-h", "--help", "Show this help message.") {
           puts o.help
@@ -21,9 +23,9 @@ module XPash
     end
 
     def parse!(argv)
-      @opts = {}
+      @opts = @default_opts.dup
       super(argv)
-      if @min_args && @min_args > argv.size
+      if @min_args > argv.size
         raise ArgumentError.new "Wrong number of arguments. (#{argv.size} for #{@min_args})"
       end
       return @opts

@@ -29,8 +29,9 @@ module XPash
 
     def optparse_grep!(args)
       unless @optparses[:grep]
-        o = CmdOptionParser.new(1, nil, 20)
+        o = CmdOptionParser.new(nil, 20)
         o.banner = "Usage: grep [OPTION] KEYWORD [PATH]"
+        o.min_args = 1
         o.separator("Options:")
         o.on("-a", "--all", "Search from document root.")
         o.on("-s", "--short", "Display elements with short format.")
