@@ -48,8 +48,11 @@ module XPash
         # absolute path
         return appendix
       when /^\.\.(\/|$)/
+        # remove condition expression
+        base_tmp = base.sub(/\[[^\[]+?\]$/, "")
+
         # go up
-        if /(^.*[^\/]+)\/+.+?$/ =~ base
+        if /(^.*[^\/]+)\/+.+?$/ =~ base_tmp
           new_base = $1
           new_apdx = appendix.sub(/^\.\./, "")
           @log.debug_var binding, :new_base, :new_apdx

@@ -15,17 +15,16 @@ describe XPash::CmdOptionParser do
   end
 
   context "(with '-h' or '--help' option)" do
-    it "should display help message\n\s\s" +
-     "and raise XPash::ReturnSignal, without SystemExit." do
+    it "should display help message and raise XPash::ReturnSignal, \n\s\s" +
+     "without SystemExit." do
       lambda{@foo.foo(%w(foo -a baz -h))}.should raise_error(XPash::ReturnSignal)
       stdout = read_stdout
       stdout.should =~ /[^\n]\n\s{4}-h, --help       Show this help message\.\n/
      end
   end
 
-  context "with '-v' or '--version' option" do
-    it "should not parse valid option" +
-     "\n\s\sin default." do
+  context "(with '-v' or '--version' option)" do
+    it "should not deal as valid option in default." do
       lambda{@foo.foo(%w(foo -l -v))}.should raise_error(OptionParser::InvalidOption)
      end
   end
@@ -73,7 +72,7 @@ describe XPash::CmdOptionParser, "#separate"  do
     prepare_stdout
   end
 
-  it "should show message with indent." do
+  it "should show message with empty line above message." do
     lambda{@foo.foo(%w(foo --help))}.should raise_error(XPash::ReturnSignal)
     stdout = read_stdout
     stdout.should =~ /[^\n]\n\n#{Foo::Separator}\n/

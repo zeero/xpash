@@ -25,3 +25,4 @@ def read_stdout
   @stdout_io.rewind
   return @stdout_io.read
 end
+

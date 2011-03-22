@@ -16,8 +16,11 @@ module XPash
 
       # display
       list.each do |e|
+        # remove condition expression
+        query_tmp = query.sub(/\[[^\[]+?\]$/, "")
+
         # print element information
-        if /(.*\/+)[^\/]+?$/ =~ query
+        if /(.*\/+)[^\/]+?$/ =~ query_tmp
           path = $1
         else
           # when target is '/'

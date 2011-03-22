@@ -56,3 +56,13 @@ class Nokogiri::XML::Comment
   end
 end
 
+class Nokogiri::XML::ProcessingInstruction
+  def ls(opts = {})
+    unless opts[:short]
+      return %(processing-instruction\('#{self.name}'\))
+    else
+      return %(processing-instruction\(\))
+    end
+  end
+end
+

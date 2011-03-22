@@ -49,6 +49,9 @@ describe XPash::Base, "#getPath" do
     @xpash.getPath("//div/footer/h3", "..//../").should == "//div/footer//.."
     @xpash.getPath("//div/footer/h3", "../../header").should == "//div/header"
     @xpash.getPath("//div/footer/h3", "../..//header").should == "//div//header"
+    @xpash.getPath("//div/footer/img[@src=\"../img/test.png\"]", "..").should == "//div/footer"
+    @xpash.getPath("//div[@foo=\"bar/baz\"]/footer/img[@src=\"../img/test.png\"]", "..").should == "//div[@foo=\"bar/baz\"]/footer"
+    # invalid expression
     @xpash.getPath("//div/footer/h3", "...").should == "//div/footer/h3/..."
     @xpash.getPath("//div/footer/h3", "../[@id=\"test\"]").should == "//div/footer/[@id=\"test\"]"
   end
