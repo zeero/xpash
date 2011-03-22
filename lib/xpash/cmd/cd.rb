@@ -6,8 +6,10 @@ module XPash
       return if opts[:end]
 
       query = getPath(@query, args.join(" "))
+      list = @doc.xpath(query)
+      raise "No such node: #{query}" if list.empty?
 
-      @list = @doc.xpath(query)
+      @list = list
       @query = query
       return @list.size
     end

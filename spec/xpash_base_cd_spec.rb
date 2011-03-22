@@ -16,6 +16,12 @@ describe XPash::Base, "cd command" do
     @xpash.query.should == "//div/article"
   end
 
+  context "(if result is empty)" do
+    it "should raise error." do
+      lambda{@xpash.cd("//test")}.should raise_error(RuntimeError)
+    end
+  end
+
   it "should not add '/', but should add just input query,\n\s\s" +
      "when current @query ends with '/'." do
     @xpash.cd("html").should == 1

@@ -12,6 +12,7 @@ module XPash
         query = getPath(@query, args.join(" "))
         list = @doc.xpath(query)
       end
+      raise "No such node: #{query}" if list.empty?
 
       # display
       list.each do |e|

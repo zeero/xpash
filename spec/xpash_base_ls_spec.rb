@@ -6,7 +6,7 @@ describe XPash::Base, "ls command" do
     prepare_stdout
   end
 
-  it "should show top level elements in @list." do
+  it "should show top level elements in current list." do
     @xpash.cd("//div")
     @xpash.ls
     stdout = read_stdout
@@ -34,6 +34,12 @@ describe XPash::Base, "ls command" do
     stdout.should =~ %r(h1\[@id="title"\])
     stdout.should =~ %r(text\(\)\[\.='\\n\t\t\t'\])
     stdout.should =~ %r(nav)
+  end
+
+  context "(if result is empty)" do
+    it "should raise error." do
+      lambda{@xpash.ls("//test")}.should raise_error(RuntimeError)
+    end
   end
 
   it "in root path, should return top level elements." do
