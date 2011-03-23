@@ -13,8 +13,8 @@ describe XPash::Base, "grep command" do
     @xpash.grep("Your")
 
     stdout = read_stdout
-    stdout.should =~ /'Your title'/
-    stdout.should =~ /'Your article heading'/
+    stdout.should =~ %r(//div/header/h1/text\(\)\[.='Your title'\])
+    stdout.should =~ %r(//div/article/header/h2/text\(\)\[.='Your article heading'\])
     stdout.should_not =~ /'Your HTML5 project is almost ready! Please check the '/
   end
 

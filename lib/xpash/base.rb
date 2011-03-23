@@ -9,7 +9,7 @@ module XPash
     attr_reader :query
 
     def initialize(filepath)
-      @doc = Nokogiri::XML(open(filepath))
+      @doc = Nokogiri(open(filepath).read)
       @query = DEFAULT_PATH
       @list = [@doc]
       @optparses = {}
@@ -33,7 +33,7 @@ module XPash
       if self.respond_to?(command)
         self.send(command, *args)
       else
-        raise "\'#{command}\' is not xpash command."
+        raise "\'#{command}\' is not XPash command."
       end
     end
 

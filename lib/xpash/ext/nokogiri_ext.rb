@@ -61,7 +61,7 @@ class Nokogiri::XML::ProcessingInstruction
     unless opts[:short]
       return %(processing-instruction\('#{self.name}'\))
     else
-      return %(processing-instruction\(\))
+      return "processing-instruction()"
     end
   end
 end

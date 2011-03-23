@@ -53,7 +53,7 @@ describe XPash::Base, "ls command" do
     @xpash.cd('//div[@class="wrapper" and @id="main"]')
     @xpash.ls("--short")
     stdout = read_stdout
-    stdout.should == "//div:\ntext()\naside\ntext()\narticle\ntext()\n\n"
+    stdout.should == "//div:\ntext()\naside\narticle\n\n"
   end
 
   it "with '-h, --help' option, should show help message." do

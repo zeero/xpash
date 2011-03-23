@@ -6,25 +6,32 @@ module XPash
 
       keyword = args[0]
       if opts[:all]
+        query = ROOT_PATH
         node_ary = [@doc]
       elsif args[1]
-        node_ary = @doc.xpath(getPath(@query, args[1]))
+        query = getPath(@query, args[1])
+        node_ary = @doc.xpath(query)
       else
+        query = @query
         node_ary = @list
       end
 
-      matches = node_ary.map {|node| node.xpath(".//text()[contains(., '#{keyword}')]")}
-      @log.debug_var binding, :matches
-      matches.each do |nodeset|
+      matches = []
+      node_ary.each do |node|
+        nodeset = node.xpath(".//text()[contains(., '#{keyword}')]")
         nodeset.each do |tnode|
-          path = tnode.ancestors.reverse.map {|anc|
-            anc.name unless anc.kind_of? Nokogiri::XML::Document
-          }
-          path << tnode.ls({:short => opts[:short]})
-          puts path.join("/")
+          matches << tnode
+          path = [tnode.ls({:short => opts[:short]})]
+          tnode.ancestors.each do |anc|
+            break if anc.eql? node
+            path << anc.ls({:short => true})
+          end
+          @log.debug_var binding, :path
+          puts getPath(query, path.reverse.join("/"))
         end
       end
-      return matches.flatten.size
+      @log.debug_var binding, :matches
+      return matches.size
     end
 
     def optparse_grep!(args)
