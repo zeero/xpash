@@ -33,7 +33,7 @@ describe XPash::Base, "grep command" do
 
     stdout = read_stdout
     stdout.should_not =~ /'Your title'/
-    stdout.should =~ /'Your article heading'/
+    stdout.should =~ %r(//div/article/header/h2/text\(\)\[.='Your article heading'\])
     stdout.should_not =~ /'Your HTML5 project is almost ready! Please check the '/
   end
 
