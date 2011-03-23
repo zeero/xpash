@@ -11,6 +11,7 @@ require 'xpash'
 
 
 FIXTURE_DIR = "#{File.dirname(__FILE__)}/fixture"
+FIXTURE_URL = "http://www.ruby-lang.org/"
 
 def get_fixture(filename = "default.html")
   return XPash::Base.new(FIXTURE_DIR + "/" + filename)

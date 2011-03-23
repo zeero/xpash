@@ -3,6 +3,7 @@ $:.unshift(File.dirname(__FILE__)) unless
 
 require 'optparse'
 require 'logger'
+require 'open-uri'
 
 require 'rubygems'
 require 'nokogiri'

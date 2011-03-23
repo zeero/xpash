@@ -7,11 +7,18 @@ describe XPash::Base do
   end
 
   it "should has '/' as @query, default." do
-    @xpash.query.should eql "/"
+    @xpash.query.should == "/"
   end
 
   it "should has Document in @list, default." do
     @xpash.ls.should == nil
+    read_stdout.should =~ /html/
+  end
+
+  it "should fetch Document over http." do
+    xpash = XPash::Base.new("http://www.ruby-lang.org/")
+    xpash.query.should == "/"
+    xpash.ls.should == nil
     read_stdout.should =~ /html/
   end
 
