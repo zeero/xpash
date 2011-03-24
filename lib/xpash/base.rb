@@ -5,6 +5,7 @@ module XPash
 
     DEFAULT_PATH = "/"
     ROOT_PATH = "/"
+    DEFAULT_NS = "xmlns"
 
     attr_reader :query
 
@@ -13,12 +14,14 @@ module XPash
       @query = DEFAULT_PATH
       @list = [@doc]
       @optparses = {}
+      initialize_xmlns
 
       @log = Logger.new($stdout)
       @log.datetime_format = "%Y-%m-%d %H:%M:%S"
       @log.level = Logger::WARN unless $DEBUG
 
       @log.debug_var binding, :filepath
+      @log.debug_var binding, "$xmlns"
     end
 
     def eval(input)
@@ -83,6 +86,31 @@ module XPash
         else
           return base + "/" + appendix
         end
+      end
+    end
+
+    def initialize_xmlns
+      $xmlns = {}
+      count = 0
+      warning = {}
+      ns_ary = @doc.xpath("//namespace::*").each do |ns|
+        unless ns.prefix
+          unless $xmlns.has_value?(ns.href)
+            suffix = count == 0 ? "" : "." + count.to_s
+            key = DEFAULT_NS + suffix
+            $xmlns[key] = ns.href
+            count += 1
+          end
+        else
+          if $xmlns[ns.prefix] && $xmlns[ns.prefix] != ns.href
+            warning[ns.prefix] = true
+          else
+            $xmlns[ns.prefix] = ns.href
+          end
+        end
+      end
+      warning.each_key do |prefix|
+        puts "Warning: XML namespace '#{prefix}' is duplicate."
       end
     end
 

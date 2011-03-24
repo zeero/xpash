@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="ruby-lang.xsl"?>
+<parts>
+
+  <!-- Alice's Auto Parts Store -->
+  <inventory xmlns="http://alicesautoparts.com/">
+    <tire>all weather</tire>
+    <tire>studded</tire>
+    <tire>extra wide</tire>
+  </inventory>
+
+  <!-- Bob's Bike Shop -->
+  <inventory xmlns="http://bobsbikes.com/">
+    <tire>street</tire>
+    <tire>mountain</tire>
+  </inventory>
+
+  <!-- Complex namespace -->
+  <inventory xmlns="http://foobarbaz.com/" xmlns:foo="http://foo.com/">
+    <tire>bar</tire>
+    <foo:tire>baz</foo:tire>
+  </inventory>
+
+  <!-- Duplicate namespace -->
+  <inventory xmlns="http://foobarbaz.com/" xmlns:foo="http://dup.com/">
+    <tire>bar</tire>
+    <foo:tire>baz</foo:tire>
+  </inventory>
+
+</parts>

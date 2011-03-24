@@ -86,3 +86,25 @@ describe XPash::Base, "#getPath" do
   end
 
 end
+
+describe XPash::Base, "#initialize_xmlns" do
+  before do
+    @xpash = get_fixture("default.xml")
+    prepare_stdout
+  end
+
+  it "should create xml namespace map." do
+    $xmlns["xml"].should == "http://www.w3.org/XML/1998/namespace"
+    $xmlns["foo"].should == "http://foo.com/"
+    $xmlns["xmlns"].should == "http://alicesautoparts.com/"
+    $xmlns["xmlns.1"].should == "http://bobsbikes.com/"
+    $xmlns["xmlns.2"].should == "http://foobarbaz.com/"
+  end
+
+  context "if document has duplicate prefix and defferent url for xml namespace" do
+    it "should display warning message." do
+      read_stdout.should == "Warning: XML namespace 'foo' is duplicate."
+    end
+  end
+end
+
