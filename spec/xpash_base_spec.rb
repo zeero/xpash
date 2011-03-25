@@ -89,8 +89,8 @@ end
 
 describe XPash::Base, "#initialize_xmlns" do
   before do
-    @xpash = get_fixture("default.xml")
     prepare_stdout
+    @xpash = get_fixture("default.xml")
   end
 
   it "should create xml namespace map." do
@@ -103,7 +103,7 @@ describe XPash::Base, "#initialize_xmlns" do
 
   context "if document has duplicate prefix and defferent url for xml namespace" do
     it "should display warning message." do
-      read_stdout.should == "Warning: XML namespace 'foo' is duplicate."
+      read_stdout.should == "Warning: XML namespace 'foo' is duplicate.\n"
     end
   end
 end
