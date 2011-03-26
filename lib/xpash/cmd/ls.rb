@@ -39,7 +39,7 @@ module XPash
 
         puts
       end
-      return
+      return list.size
     end
     alias :list :ls
 
