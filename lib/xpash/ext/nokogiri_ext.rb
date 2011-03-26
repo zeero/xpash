@@ -1,6 +1,24 @@
 class Nokogiri::XML::Node
+
   def ls(opts = {})
     return self.name
+  end
+
+  def _ls(exp = {}, opts = {})
+    exp[:short] ||= "node()"
+    exp[:short_color] ||= Term::ANSIColor.yellow
+    exp[:long_start] ||= "[.='"
+    exp[:long_end] ||= "']"
+    exp[:long_color] ||= Term::ANSIColor.magenta
+
+    unless opts[:short]
+      return exp[:short_color] + exp[:short] + Term::ANSIColor.reset +
+        exp[:long_start] +
+        exp[:long_color] + exp[:long_content] + Term::ANSIColor.reset +
+        exp[:long_end]
+    else
+      return exp[:short_color] + exp[:short] + Term::ANSIColor.reset
+    end
   end
 end
 
@@ -27,7 +45,7 @@ class Nokogiri::XML::Element
     end
 
     # tag
-    exp += self.name
+    exp = blue(exp + self.name)
 
     # attributes expression
     unless opts[:short]
@@ -47,37 +65,36 @@ end
 
 class Nokogiri::XML::Attr
   def ls(opts = {})
-    return %(@#{self.name}="#{self.value}")
+    return cyan("@" + self.name) + "=\"" + magenta(self.value) + "\""
   end
 end
 
 class Nokogiri::XML::Text
   def ls(opts = {})
-    unless opts[:short]
-      return %(text\(\)[.='#{self.content.gsub(/\n/, '\n')}'])
-    else
-      return "text()"
-    end
+    exp = Hash.new
+    exp[:short] = "text()"
+    exp[:long_content] = self.content.gsub(/\n/, '\n')
+    return _ls(exp, opts)
   end
 end
 
 class Nokogiri::XML::Comment
   def ls(opts = {})
-    unless opts[:short]
-      return %(comment\(\)[.='#{self.content.gsub(/\n/, '\n')}'])
-    else
-      return "comment()"
-    end
+    exp = Hash.new
+    exp[:short] = "comment()"
+    exp[:long_content] = self.content.gsub(/\n/, '\n')
+    return _ls(exp, opts)
   end
 end
 
 class Nokogiri::XML::ProcessingInstruction
   def ls(opts = {})
-    unless opts[:short]
-      return %(processing-instruction\('#{self.name}'\))
-    else
-      return "processing-instruction()"
-    end
+    exp = Hash.new
+    exp[:short] = "processing-instruction"
+    exp[:long_start] = "("
+    exp[:long_content] = self.name
+    exp[:long_end] = ")"
+    return _ls(exp, opts)
   end
 end
 

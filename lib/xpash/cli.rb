@@ -23,7 +23,7 @@ module XPash
       end
 
       # initialize main class
-      xpash = XPash::Base.new(filepath)
+      xpash = XPash::Base.new(filepath, opts)
 
       if opts[:query]
         xpash.cd(opts[:query])
@@ -43,7 +43,8 @@ module XPash
 
       opts = {
         # TODO: development setting
-        :filepath => "#{File.dirname(__FILE__)}/../../spec/fixture/default.html"
+        :filepath => "#{File.dirname(__FILE__)}/../../spec/fixture/default.html",
+        :color => true
       }
       mandatory_opts = %w(  )
 

@@ -9,19 +9,20 @@ module XPash
 
     attr_reader :query
 
-    def initialize(filepath)
+    def initialize(filepath, opts = {})
       @doc = Nokogiri(open(filepath).read)
       @query = DEFAULT_PATH
       @list = [@doc]
       @optparses = {}
-      initialize_xmlns
 
       @log = Logger.new($stdout)
       @log.datetime_format = "%Y-%m-%d %H:%M:%S"
       @log.level = Logger::WARN unless $DEBUG
 
       @log.debug_var binding, :filepath
-      @log.debug_var binding, "$xmlns"
+
+      initialize_xmlns
+      Term::ANSIColor::coloring = opts[:color]
     end
 
     def eval(input)
@@ -93,6 +94,7 @@ module XPash
       $xmlns = {}
       count = 0
       warning = {}
+
       ns_ary = @doc.xpath("//namespace::*").each do |ns|
         unless ns.prefix
           unless $xmlns.has_value?(ns.href)
@@ -109,6 +111,8 @@ module XPash
           end
         end
       end
+      @log.debug_var binding, "$xmlns"
+
       warning.each_key do |prefix|
         puts "Warning: XML namespace '#{prefix}' is duplicate."
       end
