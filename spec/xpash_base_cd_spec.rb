@@ -16,40 +16,57 @@ describe XPash::Base, "cd command" do
     @xpash.query.should == "//div/article"
   end
 
-  context "(if result is empty)" do
+  context "if result is empty" do
     it "should raise error." do
       lambda{@xpash.cd("//test")}.should raise_error(RuntimeError)
     end
   end
 
-  it "should not add '/', but should add just input query,\n\s\s" +
-     "when current @query ends with '/'." do
-    @xpash.cd("html").should == 1
-    @xpash.query.should == "/html"
+  context "when current @query ends with '/'." do
+    it "should not add '/', but should add just input query" do
+      @xpash.cd("html").should == 1
+      @xpash.query.should == "/html"
+    end
   end
 
-  it "when input starts with '..', should change @query to upper path." do
-    @xpash.cd("//div")
-    @xpash.cd("article")
-    @xpash.cd("..").should == 3
-    @xpash.query.should == "//div"
+  context "when input starts with '..'" do
+    it "should change @query to upper path." do
+      @xpash.cd("//div")
+      @xpash.cd("article")
+      @xpash.cd("..").should == 3
+      @xpash.query.should == "//div"
+    end
   end
 
-  it "when input starts with '/', should replace @query with input query." do
-    @xpash.cd("/")
-    @xpash.cd("..").should == 1
-    @xpash.query.should == "/"
+  context "when input starts with '/'" do
+    it "should replace @query with input query." do
+      @xpash.cd("/")
+      @xpash.cd("..").should == 1
+      @xpash.query.should == "/"
+    end
   end
 
-  it "when input starts with '[', should add just input query." do
-    @xpash.cd("//div")
-    @xpash.cd('[@class="wrapper" and @id="main"]').should == 1
-    @xpash.query.should == '//div[@class="wrapper" and @id="main"]'
+  context "when input starts with '['" do
+    it "should add just input query." do
+      @xpash.cd("//div")
+      @xpash.cd('[@class="wrapper" and @id="main"]').should == 1
+      @xpash.query.should == '//div[@class="wrapper" and @id="main"]'
+    end
   end
 
-  it "when no input given, should go to default path" do
-    @xpash.cd("").should == 1
-    @xpash.query.should == '/'
+  context "when no input given" do
+    it "should go to default path" do
+      @xpash.cd("").should == 1
+      @xpash.query.should == '/'
+    end
+  end
+
+  context "when there is xml namespace" do
+    it "should accept namespace specification" do
+      xpash = get_fixture("default.xml")
+      xpash.cd("/parts/xmlns:inventory").should == 1
+      xpash.query == "/parts/xmlns:inventory > "
+    end
   end
 
 end
