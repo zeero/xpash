@@ -12,10 +12,25 @@ end
 
 class Nokogiri::XML::Element
   def ls(opts = {})
-    exp = self.name
+    exp = ""
 
+    # namespace
+    if $xmlns
+      if self.namespace
+        if self.namespace.prefix
+          exp += self.namespace.prefix
+        else
+          exp += $xmlns.index(self.namespace.href)
+        end
+        exp += ":"
+      end
+    end
+
+    # tag
+    exp += self.name
+
+    # attributes expression
     unless opts[:short]
-      # get attributes expression
       attr_a = self.attributes
       if attr_a.size > 0
         attr = attr_a.shift[1].ls

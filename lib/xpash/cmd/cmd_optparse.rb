@@ -17,7 +17,7 @@ module XPash
       super(*opts) {|value|
         optname = opts.find {|long| /^--/ =~ long }
         optname ||= opts.find {|short| /^-/ =~ short }
-        @opts[optname.sub(/^-+/, "").sub(/ .*/, "").to_sym] = value
+        @opts[optname.sub(/^-+/, "").sub(/-/, "_").sub(/ .*/, "").to_sym] = value
         yield value if block_given?
       }
     end

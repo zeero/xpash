@@ -5,7 +5,7 @@ module XPash
       opts = optparse_cd!(args)
 
       query = getPath(@query, args.join(" "))
-      list = @doc.xpath(query)
+      list = @doc.xpath(query, $xmlns)
       raise "No such node: #{query}" if list.empty?
 
       @list = list

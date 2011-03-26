@@ -10,7 +10,7 @@ module XPash
         list = @list
       else
         query = getPath(@query, args.join(" "))
-        list = @doc.xpath(query)
+        list = @doc.xpath(query, $xmlns)
       end
       raise "No such node: #{query}" if list.empty?
 

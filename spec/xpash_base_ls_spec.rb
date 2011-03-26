@@ -58,11 +58,12 @@ describe XPash::Base, "ls command" do
     end
   end
 
-  it "with '-s, --short' option, should display short XPath expression." do
-    @xpash.cd('//div[@class="wrapper" and @id="main"]')
-    @xpash.ls("--short")
-    stdout = read_stdout
-    stdout.should == "//div:\ntext()\naside\narticle\n\n"
+  context "when there is xml namespace" do
+    it "should accept namespace specification." do
+      xpash = get_fixture("default.xml")
+      xpash.ls("//xmlns.1:inventory").should == 1
+      read_stdout.should =~ /\/\/xmlns.1:inventory:\ntext\(\)\[.='\\n    '\]\nxmlns.1:tire\ntext\(\)\[.='\\n    '\]\nxmlns.1:tire\ntext\(\)\[.='\\n  '\]\n\n/
+    end
   end
 
   context "with '-s, --short' option" do

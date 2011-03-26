@@ -10,11 +10,12 @@ module XPash
         node_ary = [@doc]
       elsif args[1]
         query = getPath(@query, args[1])
-        node_ary = @doc.xpath(query)
+        node_ary = @doc.xpath(query, $xmlns)
       else
         query = @query
         node_ary = @list
       end
+      @log.debug_var binding, :query, "node_ary.size"
 
       matches = []
       node_ary.each do |node|
