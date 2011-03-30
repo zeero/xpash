@@ -1,7 +1,8 @@
 require 'xpash/cmd/cd'
-require 'xpash/cmd/ls'
+require 'xpash/cmd/dump'
 require 'xpash/cmd/grep'
 require 'xpash/cmd/help'
+require 'xpash/cmd/ls'
 
 module XPash
   class Base

@@ -10,19 +10,22 @@ module XPash
     attr_reader :query
 
     def initialize(filepath, opts = {})
+      # setup logger
+      @log = Logger.new($stdout)
+      @log.datetime_format = "%Y-%m-%d %H:%M:%S"
+      @log.level = Logger::WARN unless $DEBUG
+
+      # setup object variables
       @doc = Nokogiri(open(filepath).read)
       @query = DEFAULT_PATH
       @list = [@doc]
       @optparses = {}
 
-      @log = Logger.new($stdout)
-      @log.datetime_format = "%Y-%m-%d %H:%M:%S"
-      @log.level = Logger::WARN unless $DEBUG
-
-      @log.debug_var binding, :filepath
-
+      # initialization
       initialize_xmlns
       Term::ANSIColor::coloring = opts[:color]
+
+      @log.debug_var binding, :filepath
     end
 
     def eval(input)
@@ -122,5 +125,6 @@ module XPash
       doc = Nokogiri::HTML(open(filepath))
       return doc.xpath(query).map {|e| e.to_s}
     end
+
   end
 end
