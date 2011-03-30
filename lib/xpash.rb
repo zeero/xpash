@@ -8,6 +8,7 @@ require 'open-uri'
 require 'rubygems'
 require 'nokogiri'
 require 'term/ansicolor'
+require 'win32console' if RUBY_PLATFORM =~ /mswin|mingw|cygwin|bccwin|interix/i
 
 require 'xpash/base'
 require 'xpash/return_signal'
