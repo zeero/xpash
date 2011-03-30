@@ -12,10 +12,10 @@ class Logger
     end
 
     /^(.+?):(\d+)(?::in `(.*)')?/.match(caller.first)
-    method_name = $3 ? "#{$3}" : ""
+    method_name = $3 ? $3 : ""
 
     message_a = vars.map {|var|
-      "#{yellow(var.to_s)} => #{yellow(ctx.eval(var.to_s).inspect)}"
+      "\n" + yellow(var.to_s) + " => " + yellow(ctx.eval(var.to_s).inspect)
     }
 
     debug(class_name + sep + method_name) { message_a.join(", ") }
