@@ -26,12 +26,12 @@ module XPash
           # when target is '/'
           path = query
         end
-        print %(#{path}#{e.ls(opts)})
+        print negative(uncolored(path + e.ls(opts)))
 
         # print childs
         children = e.children
         if children.size > 0
-          puts ":"
+          puts negative(":")
           children.each do |child|
             puts child.ls(opts)
           end
@@ -41,7 +41,6 @@ module XPash
       end
       return list.size
     end
-    alias :list :ls
 
     def optparse_ls!(args)
       unless @optparses[:ls]
