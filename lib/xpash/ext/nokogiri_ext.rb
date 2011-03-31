@@ -1,23 +1,19 @@
 class Nokogiri::XML::Node
+  EXP_SHORT = "node()"
+  EXP_SHORT_COLOR = Term::ANSIColor.yellow
+  EXP_LONG_START = "[.='"
+  EXP_LONG_END = "']"
+  EXP_LONG_COLOR = Term::ANSIColor.magenta
 
   def ls(opts = {})
-    return self.name
-  end
-
-  def _ls(exp = {}, opts = {})
-    exp[:short] ||= "node()"
-    exp[:short_color] ||= Term::ANSIColor.yellow
-    exp[:long_start] ||= "[.='"
-    exp[:long_end] ||= "']"
-    exp[:long_color] ||= Term::ANSIColor.magenta
-
+    @exp_long_content ||= self.name
     unless opts[:short]
-      return exp[:short_color] + exp[:short] + Term::ANSIColor.reset +
-        exp[:long_start] +
-        exp[:long_color] + exp[:long_content] + Term::ANSIColor.reset +
-        exp[:long_end]
+      return self.class::EXP_SHORT_COLOR + self.class::EXP_SHORT + Term::ANSIColor.reset +
+        self.class::EXP_LONG_START +
+        self.class::EXP_LONG_COLOR + @exp_long_content + Term::ANSIColor.reset +
+        self.class::EXP_LONG_END
     else
-      return exp[:short_color] + exp[:short] + Term::ANSIColor.reset
+      return self.class::EXP_SHORT_COLOR + self.class::EXP_SHORT + Term::ANSIColor.reset
     end
   end
 end
@@ -70,31 +66,31 @@ class Nokogiri::XML::Attr
 end
 
 class Nokogiri::XML::Text
+  EXP_SHORT = "text()"
+
   def ls(opts = {})
-    exp = Hash.new
-    exp[:short] = "text()"
-    exp[:long_content] = self.content.gsub(/\n/, '\n')
-    return _ls(exp, opts)
+    @exp_long_content ||= self.content.gsub(/\n/, '\n')
+    super(opts)
   end
 end
 
 class Nokogiri::XML::Comment
+  EXP_SHORT = "comment()"
+
   def ls(opts = {})
-    exp = Hash.new
-    exp[:short] = "comment()"
-    exp[:long_content] = self.content.gsub(/\n/, '\n')
-    return _ls(exp, opts)
+    @exp_long_content ||= self.content.gsub(/\n/, '\n')
+    super(opts)
   end
 end
 
 class Nokogiri::XML::ProcessingInstruction
+  EXP_SHORT = "processing-instruction"
+  EXP_LONG_START = "("
+  EXP_LONG_END = ")"
+
   def ls(opts = {})
-    exp = Hash.new
-    exp[:short] = "processing-instruction"
-    exp[:long_start] = "("
-    exp[:long_content] = self.name
-    exp[:long_end] = ")"
-    return _ls(exp, opts)
+    @exp_long_content ||= self.name
+    super(opts)
   end
 end
 

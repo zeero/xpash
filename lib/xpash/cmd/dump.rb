@@ -42,7 +42,7 @@ module XPash
           "Format Types:",
           sprintf("  %-8s%s", "raw", "Default format."),
           sprintf("  %-8s%s", "csv", "Create csv data."),
-          sprintf("  %-8s%s", "xml", "Create well-formed xml data."))
+          sprintf("  %-8s%s", "xml", "Create well-formed xml data."),
           sprintf("  %-8s%s", "xsl", "Create data by xsl."))
         @optparses[:dump] = o
       end
