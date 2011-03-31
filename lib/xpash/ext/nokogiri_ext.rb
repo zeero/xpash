@@ -1,19 +1,17 @@
 class Nokogiri::XML::Node
-  EXP_SHORT = "node()"
-  EXP_SHORT_COLOR = Term::ANSIColor.yellow
-  EXP_LONG_START = "[.='"
-  EXP_LONG_END = "']"
-  EXP_LONG_COLOR = Term::ANSIColor.magenta
+  LS_SHORT = "node()"
+  LS_LONG_START = "[.='"
+  LS_LONG_END = "']"
 
   def ls(opts = {})
     @exp_long_content ||= self.name
     unless opts[:short]
-      return self.class::EXP_SHORT_COLOR + self.class::EXP_SHORT + Term::ANSIColor.reset +
-        self.class::EXP_LONG_START +
-        self.class::EXP_LONG_COLOR + @exp_long_content + Term::ANSIColor.reset +
-        self.class::EXP_LONG_END
+      return yellow(self.class::LS_SHORT) +
+        self.class::LS_LONG_START +
+        magenta(@exp_long_content) +
+        self.class::LS_LONG_END
     else
-      return self.class::EXP_SHORT_COLOR + self.class::EXP_SHORT + Term::ANSIColor.reset
+      return yellow(self.class::LS_SHORT)
     end
   end
 end
@@ -66,7 +64,7 @@ class Nokogiri::XML::Attr
 end
 
 class Nokogiri::XML::Text
-  EXP_SHORT = "text()"
+  LS_SHORT = "text()"
 
   def ls(opts = {})
     @exp_long_content ||= self.content.gsub(/\n/, '\n')
@@ -75,7 +73,7 @@ class Nokogiri::XML::Text
 end
 
 class Nokogiri::XML::Comment
-  EXP_SHORT = "comment()"
+  LS_SHORT = "comment()"
 
   def ls(opts = {})
     @exp_long_content ||= self.content.gsub(/\n/, '\n')
@@ -84,9 +82,9 @@ class Nokogiri::XML::Comment
 end
 
 class Nokogiri::XML::ProcessingInstruction
-  EXP_SHORT = "processing-instruction"
-  EXP_LONG_START = "("
-  EXP_LONG_END = ")"
+  LS_SHORT = "processing-instruction"
+  LS_LONG_START = "("
+  LS_LONG_END = ")"
 
   def ls(opts = {})
     @exp_long_content ||= self.name

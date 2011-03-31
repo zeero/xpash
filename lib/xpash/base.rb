@@ -23,7 +23,7 @@ module XPash
 
       # initialization
       initialize_xmlns
-      Term::ANSIColor::coloring = opts[:color]
+      #Term::ANSIColor::coloring = opts[:color] && STDOUT.isatty
 
       @log.debug_var binding, :filepath
     end

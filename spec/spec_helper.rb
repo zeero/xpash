@@ -1,4 +1,6 @@
+#
 # Library Preparation
+#
 
 begin
   require 'spec'
@@ -11,16 +13,18 @@ end
 $:.unshift(File.dirname(__FILE__) + '/../lib')
 require 'xpash'
 
-Term::ANSIColor::coloring = false
-
-
-# Contants
+#
+# Constants
+#
 
 FIXTURE_DIR = "#{File.dirname(__FILE__)}/fixture"
 FIXTURE_URL = "http://www.ruby-lang.org/"
 
+Term::ANSIColor::coloring = false
 
+#
 # Helper methods
+#
 
 def get_fixture(filename = "default.html")
   return XPash::Base.new(FIXTURE_DIR + "/" + filename)
