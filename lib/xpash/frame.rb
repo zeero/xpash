@@ -13,13 +13,9 @@ module XPash
 
       puts "=> #{result}" if result
     rescue XPash::ReturnSignal
-    rescue Nokogiri::XML::XPath::SyntaxError => e
-      puts "Error: #{e}"
     rescue OptionParser::InvalidOption => e
       puts "Error: #{e}. 'help COMMAND' may help you."
-    rescue ArgumentError => e
-      puts "Error: #{e}"
-    rescue RuntimeError => e
+    rescue => e
       puts "Error: #{e}"
     end
   end
