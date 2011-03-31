@@ -35,7 +35,15 @@ module XPash
         o.on("--append",
           "When use with '-o' option, append output",
           "to the end of the file.",
-          "Without '-o' option, this option make no sense.")
+          "Without '-o' option, this option is ignored.")
+        o.on("-f", "--format TYPE",
+          "Specify dump format.",
+          " ",
+          "Format Types:",
+          sprintf("  %-8s%s", "raw", "Default format."),
+          sprintf("  %-8s%s", "csv", "Create csv data."),
+          sprintf("  %-8s%s", "xml", "Create well-formed xml data."))
+          sprintf("  %-8s%s", "xsl", "Create data by xsl."))
         @optparses[:dump] = o
       end
       opts = @optparses[:dump].parse!(args)
