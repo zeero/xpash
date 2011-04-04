@@ -59,7 +59,7 @@ end
 
 class Nokogiri::XML::Attr
   def ls(opts = {})
-    return cyan("@" + self.name) + "=\"" + magenta(self.value) + "\""
+    return cyan("@" + self.name) + "='" + magenta(self.value) + "'"
   end
 end
 

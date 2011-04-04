@@ -10,9 +10,9 @@ describe XPash::Base, "ls command" do
     @xpash.cd("//div")
     @xpash.ls
     stdout = read_stdout
-    stdout.should =~ %r(//div\[@id="header-container"\]:)
-    stdout.should =~ %r(//div\[@class="wrapper" and @id="main"\]:)
-    stdout.should =~ %r(//div\[@id="footer-container"\]:)
+    stdout.should =~ %r(//div\[@id='header-container'\]:)
+    stdout.should =~ %r(//div\[@class='wrapper' and @id='main'\]:)
+    stdout.should =~ %r(//div\[@id='footer-container'\]:)
   end
 
   it "should return number of found elements." do
@@ -21,10 +21,10 @@ describe XPash::Base, "ls command" do
 
   context "if element has child" do
     it "should also show its child and this element is marked with ':'." do
-      @xpash.cd('//div[@class="wrapper" and @id="main"]')
+      @xpash.cd("//div[@class='wrapper' and @id='main']")
       @xpash.ls
       stdout = read_stdout
-      stdout.should =~ %r(//div\[@class="wrapper" and @id="main"\]:\n)
+      stdout.should =~ %r(//div\[@class='wrapper' and @id='main'\]:\n)
       stdout.should =~ %r(text\(\)\[\.='\\n\t\t'\])
       stdout.should =~ %r(aside)
       stdout.should =~ %r(article)
@@ -33,11 +33,11 @@ describe XPash::Base, "ls command" do
 
   context "with argument" do
     it "should show element from added position current query and argument." do
-      @xpash.cd('//div[@id="header-container"]')
+      @xpash.cd("//div[@id='header-container']")
       @xpash.ls("header")
       stdout = read_stdout
-      stdout.should =~ %r(//div\[@id="header-container"\]/header\[@class="wrapper"\]:\n)
-      stdout.should =~ %r(h1\[@id="title"\])
+      stdout.should =~ %r(//div\[@id='header-container'\]/header\[@class='wrapper'\]:\n)
+      stdout.should =~ %r(h1\[@id='title'\])
       stdout.should =~ %r(text\(\)\[\.='\\n\t\t\t'\])
       stdout.should =~ %r(nav)
     end
@@ -68,7 +68,7 @@ describe XPash::Base, "ls command" do
 
   context "with '-s, --short' option" do
     it "should display short XPath expression." do
-      @xpash.cd('//div[@class="wrapper" and @id="main"]')
+      @xpash.cd("//div[@class='wrapper' and @id='main']")
       @xpash.ls("--short")
       stdout = read_stdout
       stdout.should == "//div:\ntext()\naside\narticle\n\n"

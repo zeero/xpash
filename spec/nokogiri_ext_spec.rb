@@ -30,7 +30,7 @@ describe Nokogiri::XML::Element, "#ls (extended method)" do
   end
 
   it "should return XPath expression about itself include its attributes." do
-    @elem.ls.should == 'h1[@class="bar" and @id="foo"]'
+    @elem.ls.should == "h1[@class='bar' and @id='foo']"
   end
 
   context "when opts[:short] set in args" do
@@ -59,7 +59,7 @@ describe Nokogiri::XML::Attr, "#ls (extended method)" do
   end
 
   it "should return xpath expression about itself." do
-    @attr.ls.should == "@id=\"foo\""
+    @attr.ls.should == "@id='foo'"
   end
 
 end
