@@ -16,11 +16,32 @@ module XPash
       return list unless list.kind_of? Nokogiri::XML::NodeSet
       raise "No such node: #{query}" if list.empty?
 
-      # display raw data
-      list.each_with_index do |e, i|
-        puts negative(query + ":")
-        puts e
+      # set output
+      if opts[:output]
+        output = open(opts[:output], "w")
+      else
+        output = $stdout
       end
+
+      # display
+      case opts[:format]
+      when "txt"
+        # text data
+        list.each do |e|
+          output.puts negative(query + ":") unless opts[:output]
+          output.puts e.content.gsub(/\s+/, " ").strip
+        end
+      else
+        # raw data
+        list.each do |e|
+          output.puts negative(query + ":") unless opts[:output]
+          output.puts e
+        end
+      end
+
+      # close output file
+      output.close if opts[:output]
+
       return
     end
 
@@ -42,7 +63,7 @@ module XPash
           " ",
           "Format Types:",
           sprintf("  %-8s%s", "raw", "Default format."),
-          sprintf("  %-8s%s", "csv", "Create csv data."),
+          sprintf("  %-8s%s", "txt", "Create text data with text values."),
           sprintf("  %-8s%s", "xml", "Create well-formed xml data."),
           sprintf("  %-8s%s", "xsl", "Create data by xsl."))
         @optparses[:dump] = o

@@ -14,7 +14,7 @@ describe XPash::CmdOptionParser do
     @foo.foo(%w(foo -l -a baz -s)).should == {:s => true, :long => true, :arg => "baz"}
   end
 
-  context "(with '-h' or '--help' option)" do
+  context "with '-h' or '--help' option" do
     it "should display help message and raise XPash::ReturnSignal, \n\s\s" +
      "without SystemExit." do
       lambda{@foo.foo(%w(foo -a baz -h))}.should raise_error(XPash::ReturnSignal)
@@ -23,7 +23,7 @@ describe XPash::CmdOptionParser do
      end
   end
 
-  context "(with '-v' or '--version' option)" do
+  context "with '-v' or '--version' option" do
     it "should not deal as valid option in default." do
       lambda{@foo.foo(%w(foo -l -v))}.should raise_error(OptionParser::InvalidOption)
      end
