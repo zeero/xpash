@@ -40,6 +40,12 @@ describe XPash::Base, "grep command" do
     end
   end
 
+  context "if 2nd argument evaluation is not nodeset" do
+    it "should return result value." do
+      @xpash.grep("test", "//@class='no-js'").should == true
+    end
+  end
+
   context "when there is xml namespace" do
     it "should accept namespace specification in 2nd argument." do
       xpash = get_fixture("default.xml")

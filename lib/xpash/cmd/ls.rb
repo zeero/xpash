@@ -12,6 +12,7 @@ module XPash
         query = getPath(@query, args.join(" "))
         list = @doc.xpath(query, $xmlns)
       end
+      return list unless list.kind_of? Nokogiri::XML::NodeSet
       raise "No such node: #{query}" if list.empty?
 
       # display

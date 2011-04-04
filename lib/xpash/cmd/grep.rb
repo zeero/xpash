@@ -11,6 +11,7 @@ module XPash
       elsif args[1]
         query = getPath(@query, args[1])
         node_ary = @doc.xpath(query, $xmlns)
+        return node_ary unless node_ary.kind_of? Nokogiri::XML::NodeSet
       else
         query = @query
         node_ary = @list

@@ -18,7 +18,7 @@ module XPash
       # setup object variables
       @doc = Nokogiri(open(filepath).read)
       @query = DEFAULT_PATH
-      @list = [@doc]
+      @list = @doc.xpath(@query)
       @optparses = {}
 
       # initialization

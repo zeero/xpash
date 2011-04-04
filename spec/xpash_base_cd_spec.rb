@@ -16,6 +16,12 @@ describe XPash::Base, "cd command" do
     @xpash.query.should == "//div/article"
   end
 
+  context "if result is not nodeset" do
+    it "should return result value." do
+      @xpash.cd("//@class='no-js'").should == true
+    end
+  end
+
   context "if result is empty" do
     it "should raise error." do
       lambda{@xpash.cd("//test")}.should raise_error(RuntimeError)
