@@ -82,7 +82,8 @@ describe XPash::Base, "#getPath" do
     @xpash.getPath("//div", "\'/..\'").should == "//div/.."
     @xpash.getPath("//div", "\"//p\"").should == "//div//p"
     @xpash.getPath("//div", "\"/foo bar\"").should == "//div/foo bar"
-    @xpash.getPath("//div", "\"/foo\sbar\/\"").should == "//div/foo bar/"
+    @xpash.getPath("//div", %q("/foo\sbar/")).should == "//div/foo bar/"
+    @xpash.getPath("//div", %q('/foo\sbar/')).should == "//div/foo\\sbar/"
   end
 
 end
