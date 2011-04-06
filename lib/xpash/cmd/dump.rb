@@ -25,6 +25,12 @@ module XPash
 
       # display
       case opts[:format]
+      when nil, "raw"
+        # raw data
+        list.each do |e|
+          output.puts negative(query + ":") unless opts[:output]
+          output.puts e
+        end
       when "txt"
         # text data
         list.each do |e|
@@ -32,11 +38,7 @@ module XPash
           output.puts e.content.gsub(/\s+/, " ").strip
         end
       else
-        # raw data
-        list.each do |e|
-          output.puts negative(query + ":") unless opts[:output]
-          output.puts e
-        end
+        raise "Invalid format type: #{opts[:format]}"
       end
 
       # close output file
