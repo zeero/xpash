@@ -29,13 +29,13 @@ describe Nokogiri::XML::Element, "#ls (extended method)" do
     @elem.content = "baz"
   end
 
-  it "should return XPath expression about itself include its attributes." do
-    @elem.ls.should == "h1[@class='bar' and @id='foo']"
+  it "should return its tag name only." do
+    @elem.ls.should == 'h1'
   end
 
-  context "when opts[:short] set in args" do
-    it "should return its tag name only." do
-      @elem.ls({:short => true}).should == 'h1'
+  context "when opts[:long] set in args" do
+    it "should return XPath expression about itself include its attributes." do
+      @elem.ls({:long => true}).should == "h1[@class='bar' and @id='foo']"
     end
   end
 
@@ -71,7 +71,13 @@ describe Nokogiri::XML::Text, "#ls (extended method)" do
   end
 
   it "should return xpath expression about itself." do
-    @elem.ls.should == "text()[.='foobarbaz']"
+    @elem.ls.should == "text()"
+  end
+
+  context "when opts[:long] set in args" do
+    it "should return xpath expression with text values." do
+      @elem.ls({:long => true}).should == "text()[.='foobarbaz']"
+    end
   end
 end
 

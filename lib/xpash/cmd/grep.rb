@@ -23,10 +23,10 @@ module XPash
         nodeset = node.xpath(".//text()[contains(., '#{keyword}')]")
         nodeset.each do |tnode|
           matches << tnode
-          path = [tnode.ls({:short => opts[:short]})]
+          path = [tnode.ls({:long => opts[:long]})]
           tnode.ancestors.each do |anc|
             break if anc.eql? node
-            path << anc.ls({:short => true})
+            path << anc.ls
           end
           @log.debug_var binding, :path
           puts getPath(query, path.reverse.join("/"))
@@ -43,7 +43,7 @@ module XPash
         o.min_args = 1
         o.separator("Options:")
         o.on("-a", "--all", "Search from document root.")
-        o.on("-s", "--short", "Display elements with short format.")
+        o.on("-l", "--long", "Display elements with long format.")
         @optparses[:grep] = o
       end
       opts = @optparses[:grep].parse!(args)

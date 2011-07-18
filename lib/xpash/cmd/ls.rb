@@ -48,7 +48,7 @@ module XPash
         o = CmdOptionParser.new
         o.banner = "Usage: ls [OPTION] [QUERY]"
         o.separator("Options:")
-        o.on("-s", "--short", "Display elements with short format.")
+        o.on("-l", "--long", "Display elements with long format.")
         @optparses[:ls] = o
       end
       opts = @optparses[:ls].parse!(args)

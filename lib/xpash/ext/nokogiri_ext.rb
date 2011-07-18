@@ -5,7 +5,7 @@ class Nokogiri::XML::Node
 
   def ls(opts = {})
     @exp_long_content ||= self.name
-    unless opts[:short]
+    if opts[:long]
       return yellow(self.class::LS_SHORT) +
         self.class::LS_LONG_START +
         magenta(@exp_long_content) +
@@ -42,7 +42,7 @@ class Nokogiri::XML::Element
     exp = blue(exp + self.name)
 
     # attributes expression
-    unless opts[:short]
+    if opts[:long]
       attr_a = self.attributes
       if attr_a.size > 0
         attr = attr_a.shift[1].ls

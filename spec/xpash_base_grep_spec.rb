@@ -13,9 +13,10 @@ describe XPash::Base, "grep command" do
     @xpash.grep("Your")
 
     stdout = read_stdout
-    stdout.should =~ %r(//div/header/h1/text\(\)\[.='Your title'\])
-    stdout.should =~ %r(//div/article/header/h2/text\(\)\[.='Your article heading'\])
-    stdout.should_not =~ /'Your HTML5 project is almost ready! Please check the '/
+    stdout.should =~ %r(//div/header/h1/text\(\)\n)
+    stdout.should =~ %r(//div/article/header/h2/text\(\)\n)
+    stdout.should_not =~ /'Your title'/
+    stdout.should_not =~ /'Your article heading'/
   end
 
   it "should return number of found elements." do
@@ -31,11 +32,11 @@ describe XPash::Base, "grep command" do
   context "when 2nd argument is given" do
     it "should search from query added 2nd argument to current query." do
       @xpash.cd("//div")
-      @xpash.grep("Your", "article").should == 1
+      @xpash.grep("-l", "Your", "article").should == 1
 
       stdout = read_stdout
       stdout.should_not =~ /'Your title'/
-        stdout.should =~ %r(//div/article/header/h2/text\(\)\[.='Your article heading'\])
+      stdout.should =~ %r(//div/article/header/h2/text\(\)\[.='Your article heading'\])
       stdout.should_not =~ /'Your HTML5 project is almost ready! Please check the '/
     end
   end
@@ -49,7 +50,7 @@ describe XPash::Base, "grep command" do
   context "when there is xml namespace" do
     it "should accept namespace specification in 2nd argument." do
       xpash = get_fixture("default.xml")
-      xpash.grep("baz", "//xmlns.2:inventory").should == 2
+      xpash.grep("-l", "baz", "//xmlns.2:inventory").should == 2
       read_stdout.should =~ %r(//xmlns.2:inventory/foo:tire/text\(\)\[\.='baz'\])
     end
   end
@@ -57,24 +58,25 @@ describe XPash::Base, "grep command" do
   context "with '-a' option" do
     it "should search from document." do
       @xpash.cd("//div")
-      @xpash.grep("-a", "Your").should == 3
+      @xpash.grep("-a", "-l", "Your").should == 3
 
       stdout = read_stdout
       stdout.should =~ /'Your title'/
-        stdout.should =~ /'Your article heading'/
-        stdout.should =~ /'Your HTML5 project is almost ready! Please check the '/
+      stdout.should =~ /'Your article heading'/
+      stdout.should =~ /'Your HTML5 project is almost ready! Please check the '/
     end
   end
 
-  context "with '-s, --short' option" do
-    it "should display short XPath expression." do
+  context "with '-l, --long' option" do
+    it "should display long XPath expression." do
       @xpash.cd("//div")
-      @xpash.grep("-s", "Your").should == 2
+      @xpash.grep("-l", "Your").should == 2
 
       stdout = read_stdout
       stdout.scan(/text\(\)/).size.should == 2
-      stdout.should_not =~ /'Your title'/
-        stdout.should_not =~ /'Your article heading'/
+      stdout.should =~ %r(//div/header/h1/text\(\)\[.='Your title'\])
+      stdout.should =~ %r(//div/article/header/h2/text\(\)\[.='Your article heading'\])
+      stdout.should_not =~ /'Your HTML5 project is almost ready! Please check the '/
     end
   end
 

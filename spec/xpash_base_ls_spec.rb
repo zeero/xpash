@@ -8,7 +8,7 @@ describe XPash::Base, "ls command" do
 
   it "should show top level elements in current list." do
     @xpash.cd("//div")
-    @xpash.ls
+    @xpash.ls("--long")
     stdout = read_stdout
     stdout.should =~ %r(//div\[@id='header-container'\]:)
     stdout.should =~ %r(//div\[@class='wrapper' and @id='main'\]:)
@@ -24,17 +24,14 @@ describe XPash::Base, "ls command" do
       @xpash.cd("//div[@class='wrapper' and @id='main']")
       @xpash.ls
       stdout = read_stdout
-      stdout.should =~ %r(//div\[@class='wrapper' and @id='main'\]:\n)
-      stdout.should =~ %r(text\(\)\[\.='\\n\t\t'\])
-      stdout.should =~ %r(aside)
-      stdout.should =~ %r(article)
+      stdout.should == "//div:\ntext()\naside\narticle\n\n"
     end
   end
 
   context "with argument" do
     it "should show element from added position current query and argument." do
       @xpash.cd("//div[@id='header-container']")
-      @xpash.ls("header")
+      @xpash.ls("-l", "header")
       stdout = read_stdout
       stdout.should =~ %r(//div\[@id='header-container'\]/header\[@class='wrapper'\]:\n)
       stdout.should =~ %r(h1\[@id='title'\])
@@ -67,17 +64,20 @@ describe XPash::Base, "ls command" do
   context "when there is xml namespace" do
     it "should accept namespace specification." do
       xpash = get_fixture("default.xml")
-      xpash.ls("//xmlns.1:inventory").should == 1
+      xpash.ls("-l", "//xmlns.1:inventory").should == 1
       read_stdout.should =~ /\/\/xmlns.1:inventory:\ntext\(\)\[.='\\n    '\]\nxmlns.1:tire\ntext\(\)\[.='\\n    '\]\nxmlns.1:tire\ntext\(\)\[.='\\n  '\]\n\n/
     end
   end
 
-  context "with '-s, --short' option" do
-    it "should display short XPath expression." do
+  context "with '-l, --long' option" do
+    it "should display long XPath expression." do
       @xpash.cd("//div[@class='wrapper' and @id='main']")
-      @xpash.ls("--short")
+      @xpash.ls("--long")
       stdout = read_stdout
-      stdout.should == "//div:\ntext()\naside\narticle\n\n"
+      stdout.should =~ %r(//div\[@class='wrapper' and @id='main'\]:\n)
+      stdout.should =~ %r(text\(\)\[\.='\\n\t\t'\])
+      stdout.should =~ %r(aside)
+      stdout.should =~ %r(article)
     end
   end
 
@@ -97,9 +97,9 @@ describe XPash::Base, "#optparse_ls!" do
   end
 
   it "should parse 'ls' command arguments." do
-    args = %w(foo bar -s)
+    args = %w(foo bar -l)
     opts = @xpash.optparse_ls!(args)
-    opts.should == {:short => true}
+    opts.should == {:long => true}
     args.should == ["foo", "bar"]
   end
 
